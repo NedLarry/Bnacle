@@ -1,0 +1,191 @@
+<body>
+    <div class="app-container">
+    <!-- LEFT PANEL -->
+    <div class="left-panel">
+        <div class="logo">
+            <div class="logo-mark">EL</div>
+        </div>
+        <div class="panel-content">
+            <div class="panel-eyebrow">/ Why eLoans</div>
+            <div class="panel-title">Smart Loans<br/>for <em>Every</em><br/>Borrower</div>
+        <div class="panel-list">
+      <div class="panel-item">
+        <div class="panel-item-dot"><span></span></div>
+        <div class="panel-item-text">
+          <strong>Instant credit decisions</strong>
+          <span>AI-powered assessment in under 2 minutes</span>
+        </div>
+      </div>
+      <div class="panel-item">
+        <div class="panel-item-dot"><span></span></div>
+        <div class="panel-item-text">
+          <strong>Transparent pricing</strong>
+          <span>No hidden fees — every kobo accounted for</span>
+        </div>
+      </div>
+      <div class="panel-item">
+        <div class="panel-item-dot"><span></span></div>
+        <div class="panel-item-text">
+          <strong>Up to ₦10,000,000</strong>
+          <span>Personal, business & emergency facilities</span>
+        </div>
+      </div>
+      <div class="panel-item">
+        <div class="panel-item-dot"><span></span></div>
+        <div class="panel-item-text">
+          <strong>CBN regulated & insured</strong>
+          <span>Your data is protected under NDPR guidelines</span>
+        </div>
+      </div>
+        </div>
+        </div>
+    </div>
+
+    <!-- RIGHT PANEL -->
+    <div class="right-panel">
+        <div class="steps-indicator">
+            <div class="step-dot active">1</div>
+            <div class="step-connector"></div>
+            <div class="step-label active">Account</div>
+            <div class="step-connector"></div>
+            <div class="step-dot">2</div>
+            <div class="step-connector"></div>
+            <div class="step-label">Verify</div>
+            <div class="step-connector"></div>
+            <div class="step-dot">3</div>
+            <div class="step-connector"></div>
+            <div class="step-label">Profile</div>
+        </div>
+
+        <div class="form-header">
+            <div class="form-eyebrow">/ Create Account</div>
+            <div class="form-title">Get Started</div>
+            <div class="form-sub">Already have an account? <a routerLink="">Sign in →</a></div>
+        </div>
+
+        <div class="form-grid">
+            <div class="form-group">
+                <label>First Name</label>
+                <input type="text" placeholder="Adeola"/>
+            </div>
+            <div class="form-group">
+                <label>Last Name</label>
+                <input type="text" placeholder="Okonkwo"/>
+            </div>
+            <div class="form-group full">
+                <label>Email Address</label>
+                <input type="email" placeholder="you@email.com"/>
+            </div>
+            <div class="form-group full">
+                <label>Phone Number</label>
+                <input type="tel" placeholder="+234 800 000 0000"/>
+                <div class="field-hint">Must be linked to your BVN</div>
+            </div>
+            </div>
+            <div class="form-group">
+                <label>State of Residence</label>
+                <select>
+                    <option value="">Select state</option>
+                    <option>Lagos</option>
+                    <option>Abuja (FCT)</option>
+                    <option>Ogun</option>
+                    <option>Rivers</option>
+                    <option>Kano</option>
+                    <option>Oyo</option>
+                    <option>Delta</option>
+                    <option>Anambra</option>
+                    <option>Enugu</option>
+                    <option>Other</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Employment Status</label>
+                    <select>
+                        <option value="">Select status</option>
+                        <option>Full-time Employed</option>
+                        <option>Self-employed</option>
+                        <option>Business Owner</option>
+                        <option>Contract / Freelance</option>
+                        <option>Student</option>
+                    </select>
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" placeholder="Min. 8 characters" id="pwInput" oninput="checkStrength(this.value)"/>
+                <div class="pw-strength">
+                    <div class="pw-bars">
+                        <div class="pw-bar" id="pb1"></div>
+                        <div class="pw-bar" id="pb2"></div>
+                        <div class="pw-bar" id="pb3"></div>
+                        <div class="pw-bar" id="pb4"></div>
+                    </div>
+                    <div class="pw-label" id="pwLabel">Enter a password</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Confirm Password</label>
+                <input type="password" placeholder="Repeat password"/>
+            </div>
+            
+
+            <div class="check-group">
+                <div class="check-box" id="termsBox" onclick="toggleCheck(this)"></div>
+                <div class="check-text">I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>. I consent to a soft credit check that will not affect my credit score.</div>
+            </div>
+
+        <button class="btn-submit" onclick="handleRegister()">
+            <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2M9 11a4 4 0 100-8 4 4 0 000 8zM19 8v6M22 11l-3 3-3-3"/></svg>
+            Create Account
+        </button>
+
+        <div class="signin-row">
+            Have an account? <a routerLink="">Sign in to eLoans</a>
+        </div>
+    </div>
+
+    <!-- SUCCESS MODAL -->
+    <div class="modal-overlay" id="successModal">
+        <div class="modal">
+            <div class="modal-icon">
+                <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="color:var(--smoke-3)"><path d="M5 13l4 4L19 7"/></svg>
+            </div>
+            <h2>Account Created</h2>
+            <p>Welcome to eLoans. A verification code has been sent to your email and phone number. Please verify to continue.</p>
+            <button class="modal-btn" onclick="location.href='login.html'">Proceed to Sign In</button>
+        </div>
+    </div>
+</div>
+<script>
+    function toggleCheck(el) { el.classList.toggle('checked'); }
+
+    function checkStrength(val) {
+    const bars = [document.getElementById('pb1'), document.getElementById('pb2'),
+                document.getElementById('pb3'), document.getElementById('pb4')];
+    const lbl = document.getElementById('pwLabel');
+    bars.forEach(b => { b.className = 'pw-bar'; });
+    if (!val) { lbl.textContent = 'Enter a password'; return; }
+    let score = 0;
+    if (val.length >= 8) score++;
+    if (/[A-Z]/.test(val)) score++;
+    if (/[0-9]/.test(val)) score++;
+    if (/[^A-Za-z0-9]/.test(val)) score++;
+    const cls = score <= 1 ? 'weak' : score === 2 ? 'weak' : score === 3 ? 'fair' : 'strong';
+    const labels = ['', 'Weak', 'Weak', 'Fair', 'Strong'];
+    for (let i = 0; i < score; i++) bars[i].classList.add(cls);
+    lbl.textContent = labels[score];
+}
+
+    function handleRegister() {
+    const terms = document.getElementById('termsBox');
+    if (!terms.classList.contains('checked')) {
+        alert('Please agree to the Terms of Service to continue.');
+        return;
+    }
+    document.getElementById('successModal').classList.add('show');
+}
+</script>
+
+</body>
+
+
+

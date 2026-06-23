@@ -1,0 +1,82 @@
+<div class="app-container">
+    <!-- LEFT — FORM -->
+    <div class="left-panel">
+      <div class="logo">
+        <div class="logo-mark">EL</div>
+        </div>
+
+        <div class="form-eyebrow">/ Welcome Back</div>
+        <div class="form-title">Sign In</div>
+        <br>
+        <form class="form-group" (ngSubmit)="OnSubmit()">
+            <label>Email Address
+            <input type="email" id="emailInput" placeholder="you@email.com" name="email"
+                [value]="Login.email" (input)="Login.email = $event.target.value" autocomplete="email"/>
+                <div class="error-msg" id="emailError">Please enter a valid email address</div>
+            </label>
+
+            <br>
+            <div class="pw-row">
+                <label>Password
+                            <div class="pw-wrap">
+                <input type="password" id="pwInput" placeholder="Your password" name="password"
+                [value]="Login.password" (input)="Login.password = $event.target.value"/>
+
+                <button class="pw-toggle" onclick="togglePw()" type="button">
+                    <svg id="eyeIcon" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+                </div>
+                <div class="error-msg" id="pwError">Password must be at least 8 characters</div>
+                <br>
+                <a routerLink="forgot-password" class="forgot-link">Forgot password?</a>
+
+                </label>
+            </div>
+            
+            <button class="btn-primary" type="submit">
+                <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4M10 17l5-5-5-5M15 12H3"/></svg>
+                Sign In to eLoans
+            </button>
+
+            <div class="register-row">
+                New to eLoans? <a routerLink="register">Create a free account</a>
+            </div>
+
+        </form>
+
+
+    </div>
+
+    <!-- RIGHT PANEL -->
+    <div class="right-panel">
+        <div class="stats-row">
+            <div class="stat-block">
+                <div class="stat-num">₦4.2B</div>
+                <div class="stat-lbl">Disbursed</div>
+            </div>
+            <div class="stat-block">
+                <div class="stat-num">98.4%</div>
+                <div class="stat-lbl">Approval rate</div>
+            </div>
+            <div class="stat-block">
+                <div class="stat-num">47K+</div>
+                <div class="stat-lbl">Borrowers</div>
+            </div>
+        </div>
+  
+
+        <div class="testimonial">
+
+            <div class="testimonial-quote">
+                eLoans approved my business expansion loan in 8 minutes. The whole process was seamless — no paperwork, no branch visits, no surprises.
+            </div>
+            <div class="testimonial-author">
+                <div class="testimonial-avatar">BO</div>
+                <div>
+                    <span class="testimonial-name">Babatunde Oladele</span>
+                    <span class="testimonial-role">Business Owner · Lagos</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

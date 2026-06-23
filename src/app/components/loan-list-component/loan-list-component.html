@@ -1,0 +1,300 @@
+<div class="page-header">
+            <div>
+                <div class="page-label">/ Loans</div>
+            <div class="page-title">Loans Marketplace</div>
+            </div>
+        </div>
+
+    <!-- SUMMARY STRIP -->
+        <div class="summary-strip">
+        <div class="summary-cell">
+            <div class="sc-label">Total Loans</div>
+            <div class="sc-val">{{LoanListMetadata.TotalLoans}}</div>
+            <div class="sc-foot">All time</div>
+        </div>
+        <div class="summary-cell">
+            <div class="sc-label">Active</div>
+            <div class="sc-val">{{LoanListMetadata.TotalActive}}</div>
+            <div class="sc-foot">Currently running</div>
+        </div>
+        <div class="summary-cell">
+            <div class="sc-label">Total Borrowed</div>
+            <div class="sc-val">₦{{LoanListMetadata.TotalBorrowed}}</div>
+            <div class="sc-foot">Principal only</div>
+        </div>
+        <div class="summary-cell">
+            <div class="sc-label">Outstanding</div>
+            <div class="sc-val dim">₦{{LoanListMetadata.Outstanding}}</div>
+            <div class="sc-foot">Remaining balance</div>
+        </div>
+        <div class="summary-cell">
+            <div class="sc-label">Completed</div>
+            <div class="sc-val">{{LoanListMetadata.Completed}}</div>
+            <div class="sc-foot">Fully repaid</div>
+        </div>
+        </div>
+
+        <!-- FILTERS -->
+        <div class="filters-bar">
+        <div class="view-toggle">
+            <button class="vtab active" onclick="setView('grid',this)" title="Grid view">
+            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+            </button>
+            <button class="vtab" onclick="setView('table',this)" title="Table view">
+            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>
+            </button>
+        </div>
+        </div>
+
+        <!-- GRID VIEW -->
+        <div class="loan-grid" id="gridView">
+
+        <a class="loan-card" href="#" onclick="openDrawer('personal','₦500,000','EL-2024-0891','Jan 15, 2025','Jan 15, 2026','56.5','₦282,500','₦217,500','₦47,250','active');return false;" data-status="active" data-type="personal">
+            <div class="lc-head"><div class="lc-type">Personal Loan</div><span class="pill active">Pending</span></div>
+            <div class="lc-amount">₦500,000</div>
+            <div class="lc-id">Repayment Date · Jan 2025</div>
+        </a>
+
+        <a class="loan-card" href="#" onclick="openDrawer('business','₦1,200,000','EL-2024-0654','Oct 10, 2024','Oct 10, 2026','40','₦480,000','₦720,000','₦80,000','active');return false;" data-status="active" data-type="business">
+            <div class="lc-head"><div class="lc-type">Business Loan</div><span class="pill active">Pending</span></div>
+            <div class="lc-amount">₦1,200,000</div>
+            <div class="lc-id">Repayment Date · Oct 2024</div>
+        </a>
+
+        <a class="loan-card" href="#" onclick="openDrawer('emergency','₦150,000','EL-2026-0991','Mar 15, 2026','Sep 15, 2026','12','₦18,750','₦131,250','₦26,563','pending');return false;" data-status="pending" data-type="emergency">
+            <div class="lc-head"><div class="lc-type">Emergency Loan</div><span class="pill pending">Pending</span></div>
+            <div class="lc-amount">₦150,000</div>
+            <div class="lc-id">Repayment Date · Mar 2026</div>
+        </a>
+
+        <a class="loan-card" href="#" onclick="openDrawer('salary','₦200,000','EL-2023-0441','Aug 1, 2023','Feb 1, 2024','100','₦200,000','₦0','₦35,000','completed');return false;" data-status="completed" data-type="salary">
+            <div class="lc-head"><div class="lc-type">Salary Advance</div><span class="pill completed">Pending</span></div>
+            <div class="lc-amount">₦200,000</div>
+            <div class="lc-id">Repayment Date · Aug 2023</div>
+        </a>
+
+        <a class="loan-card" href="#" onclick="openDrawer('personal','₦800,000','EL-2022-0218','Apr 20, 2022','Oct 20, 2023','100','₦800,000','₦0','₦47,059','completed');return false;" data-status="completed" data-type="personal">
+            <div class="lc-head"><div class="lc-type">Personal Loan</div><span class="pill completed">Pending</span></div>
+            <div class="lc-amount">₦800,000</div>
+            <div class="lc-id">Repayment Date · Apr 2022</div>
+        </a>
+
+        <a class="loan-card" href="#" onclick="openDrawer('business','₦2,000,000','EL-2022-0101','Jan 10, 2022','Jan 10, 2025','100','₦2,000,000','₦0','₦57,143','completed');return false;" data-status="completed" data-type="business">
+            <div class="lc-head"><div class="lc-type">Business Loan</div><span class="pill completed">Pending</span></div>
+            <div class="lc-amount">₦2,000,000</div>
+            <div class="lc-id">Repayment Date - Jan 2022</div>
+        </a>
+
+        </div>
+
+        <!-- TABLE VIEW -->
+        <div class="table-wrap" id="tableView">
+        <table>
+            <thead>
+            <tr>
+                <th onclick="sortTable(0)">Loan ↕</th>
+                <th>Type</th>
+                <th onclick="sortTable(2)">Amount ↕</th>
+                <th onclick="sortTable(3)">Disbursed ↕</th>
+                <th>Term</th>
+                <th>Repaid</th>
+                <th>Status</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody id="tableBody">
+            <tr data-status="active" data-type="personal" onclick="openDrawer('personal','₦500,000','EL-2024-0891','Jan 15, 2025','Jan 15, 2026','56.5','₦282,500','₦217,500','₦47,250','active')">
+                <td><span class="td-name">Personal Loan</span><span class="td-id">EL-2024-0891</span></td>
+                <td class="td-mono" style="font-size:11px;color:var(--ghost)">Personal</td>
+                <td class="td-mono">₦500,000</td>
+                <td class="td-mono" style="font-size:11px;color:var(--ghost)">Jan 15, 2025</td>
+                <td class="td-mono" style="font-size:11px;color:var(--ghost)">12 mo</td>
+                <td><span class="td-mono">₦282,500</span><div class="progress-mini"><div class="progress-mini-fill" style="width:56.5%"></div></div></td>
+                <td><span class="pill active">Active</span></td>
+                <td style="font-family:'DM Mono',monospace;font-size:10px;color:var(--mist)">View →</td>
+            </tr>
+            <tr data-status="active" data-type="business" onclick="openDrawer('business','₦1,200,000','EL-2024-0654','Oct 10, 2024','Oct 10, 2026','40','₦480,000','₦720,000','₦80,000','active')">
+            <td><span class="td-name">Business Loan</span><span class="td-id">EL-2024-0654</span></td>
+            <td class="td-mono" style="font-size:11px;color:var(--ghost)">Business</td>
+            <td class="td-mono">₦1,200,000</td>
+            <td class="td-mono" style="font-size:11px;color:var(--ghost)">Oct 10, 2024</td>
+            <td class="td-mono" style="font-size:11px;color:var(--ghost)">24 mo</td>
+            <td><span class="td-mono">₦480,000</span><div class="progress-mini"><div class="progress-mini-fill" style="width:40%"></div></div></td>
+            <td><span class="pill active">Active</span></td>
+            <td style="font-family:'DM Mono',monospace;font-size:10px;color:var(--mist)">View →</td>
+          </tr>
+          <tr data-status="pending" data-type="emergency" onclick="openDrawer('emergency','₦150,000','EL-2026-0991','Mar 15, 2026','Sep 15, 2026','12','₦18,750','₦131,250','₦26,563','pending')">
+            <td><span class="td-name">Emergency Loan</span><span class="td-id">EL-2026-0991</span></td>
+            <td class="td-mono" style="font-size:11px;color:var(--ghost)">Emergency</td>
+            <td class="td-mono">₦150,000</td>
+            <td class="td-mono" style="font-size:11px;color:var(--ghost)">Mar 15, 2026</td>
+            <td class="td-mono" style="font-size:11px;color:var(--ghost)">6 mo</td>
+            <td><span class="td-mono">₦18,750</span><div class="progress-mini"><div class="progress-mini-fill" style="width:12%"></div></div></td>
+            <td><span class="pill pending">Pending</span></td>
+            <td style="font-family:'DM Mono',monospace;font-size:10px;color:var(--mist)">View →</td>
+          </tr>
+          <tr data-status="completed" data-type="salary">
+            <td><span class="td-name">Salary Advance</span><span class="td-id">EL-2023-0441</span></td>
+            <td class="td-mono" style="font-size:11px;color:var(--ghost)">Salary</td>
+            <td class="td-mono">₦200,000</td>
+            <td class="td-mono" style="font-size:11px;color:var(--ghost)">Aug 1, 2023</td>
+            <td class="td-mono" style="font-size:11px;color:var(--ghost)">6 mo</td>
+            <td><span class="td-mono">₦200,000</span><div class="progress-mini"><div class="progress-mini-fill" style="width:100%"></div></div></td>
+            <td><span class="pill completed">Done</span></td>
+            <td style="font-family:'DM Mono',monospace;font-size:10px;color:var(--mist)">View →</td>
+          </tr>
+          <tr data-status="completed" data-type="personal">
+            <td><span class="td-name">Personal Loan</span><span class="td-id">EL-2022-0218</span></td>
+            <td class="td-mono" style="font-size:11px;color:var(--ghost)">Personal</td>
+            <td class="td-mono">₦800,000</td>
+            <td class="td-mono" style="font-size:11px;color:var(--ghost)">Apr 20, 2022</td>
+            <td class="td-mono" style="font-size:11px;color:var(--ghost)">18 mo</td>
+            <td><span class="td-mono">₦800,000</span><div class="progress-mini"><div class="progress-mini-fill" style="width:100%"></div></div></td>
+            <td><span class="pill completed">Done</span></td>
+            <td style="font-family:'DM Mono',monospace;font-size:10px;color:var(--mist)">View →</td>
+          </tr>
+          <tr data-status="completed" data-type="business">
+            <td><span class="td-name">Business Loan</span><span class="td-id">EL-2022-0101</span></td>
+            <td class="td-mono" style="font-size:11px;color:var(--ghost)">Business</td>
+            <td class="td-mono">₦2,000,000</td>
+            <td class="td-mono" style="font-size:11px;color:var(--ghost)">Jan 10, 2022</td>
+            <td class="td-mono" style="font-size:11px;color:var(--ghost)">36 mo</td>
+            <td><span class="td-mono">₦2,000,000</span><div class="progress-mini"><div class="progress-mini-fill" style="width:100%"></div></div></td>
+            <td><span class="pill completed">Done</span></td>
+            <td style="font-family:'DM Mono',monospace;font-size:10px;color:var(--mist)">View →</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- EMPTY STATE -->
+    <div class="empty-state" id="emptyState">
+      <div class="empty-icon">
+        <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" style="color:var(--ghost)"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+      </div>
+      <div class="empty-title">No Loans Found</div>
+      <div class="empty-sub">No loans match your current filter.<br/>Try adjusting the search or status filter.</div>
+      <button class="btn-apply" onclick="clearFilters()">Clear Filters</button>
+    </div>
+
+    <div class="pagination">
+      <span class="pg-info" id="pgInfo">Showing 6 of 6 loans</span>
+      <div class="pg-btns">
+        <button class="pg-btn">←</button>
+        <button class="pg-btn active">1</button>
+        <button class="pg-btn">→</button>
+      </div>
+    </div>
+
+  <!-- DRAWER -->
+<div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
+<div class="drawer" id="drawer">
+  <div class="drawer-header">
+    <div class="drawer-title" id="drawerLabel">Loan Details</div>
+    <button class="drawer-close" onclick="closeDrawer()">
+      <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+  <div class="drawer-body">
+    <div class="drawer-amount" id="drawerAmount">₦500,000</div>
+    <div class="drawer-type" id="drawerType">Personal Loan · EL-2024-0891</div>
+
+    <div class="drawer-section">
+      <div class="drawer-section-title">Repayment Progress</div>
+      <div style="display:flex;justify-content:space-between;font-family:'DM Mono',monospace;font-size:9px;color:var(--ghost);margin-bottom:6px;">
+        <span id="drawerRepaid">₦282,500 repaid</span><span id="drawerPct">56.5%</span>
+      </div>
+      <div class="drawer-prog-track"><div class="drawer-prog-fill" id="drawerBar" style="width:56.5%"></div></div>
+    </div>
+
+    <div class="drawer-section">
+      <div class="drawer-section-title">Loan Summary</div>
+      <div class="drawer-row"><label>Status</label><span id="drawerStatus">Active</span></div>
+      <div class="drawer-row"><label>Disbursed</label><span id="drawerDisbursed">Jan 15, 2025</span></div>
+      <div class="drawer-row"><label>End Date</label><span id="drawerEnd">Jan 15, 2026</span></div>
+      <div class="drawer-row"><label>Monthly Payment</label><span id="drawerMonthly">₦47,250</span></div>
+      <div class="drawer-row"><label>Outstanding</label><span id="drawerOutstanding">₦217,500</span></div>
+      <div class="drawer-row"><label>Interest Rate</label><span>12.5% p.a.</span></div>
+    </div>
+  </div>
+  <div class="drawer-footer">
+    <a href="loan-repayment.html" class="dBtn primary">Make Payment</a>
+    <a href="loan-details.html" class="dBtn">Full Details</a>
+  </div>
+</div>
+
+<script>
+let currentStatus = 'all', currentType = 'all', currentSearch = '';
+
+function setStatusFilter(btn, val) {
+  document.querySelectorAll('.ftab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  currentStatus = val;
+  applyFilters();
+}
+function setTypeFilter(val) { currentType = val; applyFilters(); }
+function filterLoans(val) { currentSearch = val.toLowerCase(); applyFilters(); }
+
+function applyFilters() {
+  const cards = document.querySelectorAll('.loan-card');
+  const rows  = document.querySelectorAll('#tableBody tr');
+  let visible = 0;
+
+  cards.forEach(el => {
+    const s = el.dataset.status, t = el.dataset.type;
+    const text = el.textContent.toLowerCase();
+    const show = (currentStatus === 'all' || s === currentStatus) &&
+                 (currentType === 'all' || t === currentType) &&
+                 (!currentSearch || text.includes(currentSearch));
+    el.style.display = show ? '' : 'none';
+    if (show) visible++;
+  });
+  rows.forEach(el => {
+    const s = el.dataset.status, t = el.dataset.type;
+    const text = el.textContent.toLowerCase();
+    const show = (currentStatus === 'all' || s === currentStatus) &&
+                 (currentType === 'all' || t === currentType) &&
+                 (!currentSearch || text.includes(currentSearch));
+    el.style.display = show ? '' : 'none';
+  });
+
+  document.getElementById('emptyState').classList.toggle('show', visible === 0);
+  document.getElementById('pgInfo').textContent = `Showing ${visible} of 6 loans`;
+}
+
+function clearFilters() {
+  currentStatus = 'all'; currentType = 'all'; currentSearch = '';
+  document.querySelectorAll('.ftab').forEach((t,i) => t.classList.toggle('active', i===0));
+  document.querySelector('.filter-select').value = 'all';
+  document.querySelector('.search-input').value = '';
+  applyFilters();
+}
+
+function setView(type, btn) {
+  document.querySelectorAll('.vtab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('gridView').classList.toggle('hidden', type !== 'grid');
+  document.getElementById('tableView').classList.toggle('visible', type === 'table');
+}
+
+function openDrawer(type, amount, id, disbursed, end, pct, repaid, outstanding, monthly, status) {
+  document.getElementById('drawerAmount').textContent = amount;
+  document.getElementById('drawerType').textContent = type.charAt(0).toUpperCase() + type.slice(1) + ' Loan · ' + id;
+  document.getElementById('drawerLabel').textContent = type.charAt(0).toUpperCase() + type.slice(1) + ' Loan';
+  document.getElementById('drawerRepaid').textContent = repaid + ' repaid';
+  document.getElementById('drawerPct').textContent = pct + '%';
+  document.getElementById('drawerBar').style.width = pct + '%';
+  document.getElementById('drawerStatus').textContent = status.charAt(0).toUpperCase() + status.slice(1);
+  document.getElementById('drawerDisbursed').textContent = disbursed;
+  document.getElementById('drawerEnd').textContent = end;
+  document.getElementById('drawerMonthly').textContent = monthly;
+  document.getElementById('drawerOutstanding').textContent = outstanding;
+  document.getElementById('drawerOverlay').classList.add('open');
+  document.getElementById('drawer').classList.add('open');
+}
+
+function closeDrawer() {
+  document.getElementById('drawerOverlay').classList.remove('open');
+  document.getElementById('drawer').classList.remove('open');
+}
+</script>

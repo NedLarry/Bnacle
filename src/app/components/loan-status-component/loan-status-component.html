@@ -1,0 +1,123 @@
+<div class="breadcrumb">
+      <a href="loan-overview.html">Loans</a> / Application Status
+    </div>
+    <div class="page-label">/ Tracking</div>
+    <div class="page-title">Loan Status</div>
+    <div class="page-sub">Track your pending application in real time.</div>
+
+    <div class="app-banner">
+      <div class="app-banner-left">
+        <div class="app-icon">
+          <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" style="color:var(--smoke-3)"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+        </div>
+        <div>
+          <div class="app-name">Emergency Loan — ₦150,000</div>
+          <div class="app-id">EL-2026-0991 · Submitted Mar 14, 2026 at 10:32 AM</div>
+        </div>
+      </div>
+      <div class="status-chip">
+        <div class="pulse"></div>
+        Under Review
+      </div>
+    </div>
+
+    <!-- Horizontal progress bar -->
+    <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--ghost);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:6px;display:flex;justify-content:space-between;">
+      <span>Overall Progress</span><span>Step 3 of 4</span>
+    </div>
+    <div class="progress-track-outer">
+      <div class="progress-track-fill"></div>
+    </div>
+
+    <div class="content-grid">
+      <!-- STEPPER -->
+      <div class="stepper-panel">
+        <div class="stepper-title">Application Progress</div>
+        <div class="stepper">
+
+          <div class="step-item">
+            <div class="step-left">
+              <div class="step-node done">
+                <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg>
+              </div>
+              <div class="step-connector"></div>
+            </div>
+            <div class="step-body">
+              <div class="step-title">Application Submitted</div>
+              <div class="step-desc">Received and logged in the eLoans system successfully.</div>
+              <div class="step-time">Mar 14, 2026 · 10:32 AM</div>
+              <span class="step-badge done">Complete</span>
+            </div>
+          </div>
+
+          <div class="step-item">
+            <div class="step-left">
+              <div class="step-node done">
+                <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg>
+              </div>
+              <div class="step-connector"></div>
+            </div>
+            <div class="step-body">
+              <div class="step-title">Identity Verification</div>
+              <div class="step-desc">BVN and NIN verified against NIBSS database. No discrepancies found.</div>
+              <div class="step-time">Mar 14, 2026 · 10:35 AM</div>
+              <span class="step-badge done">Complete</span>
+            </div>
+          </div>
+
+          <div class="step-item">
+            <div class="step-left">
+              <div class="step-node" current>3</div>
+              <div class="step-connector"></div>
+            </div>
+            <div class="step-body">
+              <div class="step-title dim">Approval Decision</div>
+              <div class="step-desc">You will be notified via email and SMS with the final decision and loan offer terms.</div>
+              <span class="step-badge current">In Progress</span>
+
+            </div>
+          </div>
+
+          <div class="step-item">
+            <div class="step-left">
+              <div class="step-node" style="color:var(--ghost);">4</div>
+            </div>
+            <div class="step-body">
+              <div class="step-title dim">Disbursement</div>
+              <div class="step-desc">Upon approval, funds credited to Zenith Bank ****4829 within 15 minutes.</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- INFO PANEL -->
+      <div class="info-panel">
+        <div class="info-title">Application Summary</div>
+        <div class="loan-amount-big">₦150K</div>
+        <div class="info-row"><label>Type</label><span>Emergency Loan</span></div>
+        <div class="info-row"><label>Tenure</label><span>6 months</span></div>
+        <div class="info-row"><label>Rate</label><span>12.5% p.a.</span></div>
+        <div class="info-row"><label>Monthly</label><span>₦26,563</span></div>
+        <div class="info-row"><label>Decision Via</label><span>Email + SMS</span></div>
+        <div class="info-row"><label>Review By</label><span>2:00 PM today</span></div>
+        <div class="info-row"><label>Disburse To</label><span>Zenith ****4829</span></div>
+        <div class="info-row"><label>Offer Valid</label><span>48 hours</span></div>
+        <div class="info-row"><label>Support</label><span style="color:var(--smoke-3);">support@eloans.ng</span></div>
+      </div>
+    </div>
+
+    <!-- ACTIONS -->
+    <div class="actions-panel">
+      <div class="actions-title">Application Actions</div>
+      <div class="action-row danger" onclick="if(confirm('Withdraw this application?')) location.href='loan-overview.html'">
+        <div class="action-icon">
+          <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" style="color:var(--ghost)"><path d="M6 18L18 6M6 6l12 12"/></svg>
+        </div>
+        <div class="action-text">
+          <strong>Withdraw Application</strong>
+          <span>Cancel this pending application</span>
+        </div>
+        <div class="action-arrow">→</div>
+      </div>
+    </div>
