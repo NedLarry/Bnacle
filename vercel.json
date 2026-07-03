@@ -1,9 +1,0 @@
-{
-    "OutputDirectory": "dist/loan_E/browser",
-    "rewrites": [
-        {
-            "source": "/(.*)",
-            "distination": "/index.html"
-        }
-    ]
-}
