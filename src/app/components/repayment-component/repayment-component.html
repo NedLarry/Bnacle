@@ -2,44 +2,19 @@
     <div class="page-title">Make Payment</div>
     <div class="page-sub">Select a loan and confirm your repayment.</div>
 
-    <div class="alert">
-      <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" style="color:var(--smoke-3);flex-shrink:0;margin-top:1px"><path d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg>
-      <p><strong>Payment due in 4 days —</strong> ₦47,250 for Personal Loan (EL-0891) is due Jun 1, 2026.</p>
-    </div>
-
     <div class="section-label">Select Loan</div>
-    <div class="loan-selector">
-      <div class="loan-opt selected" onclick="selectLoan(this,'47,250','Personal Loan · EL-0891','Jun 1, 2026')">
-        <div class="loan-opt-tag">
-          Due Soon
-          <div class="selected-mark"><svg width="10" height="10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg></div>
-        </div>
-        <div class="loan-opt-amount">₦47,250</div>
-        <div class="loan-opt-name">Personal Loan · EL-0891</div>
-        <div class="loan-opt-due">Due Jun 1, 2026</div>
-      </div>
-      <div class="loan-opt" onclick="selectLoan(this,'80,000','Business Loan · EL-0654','Jun 5, 2026')">
-        <div class="loan-opt-tag">
-          Upcoming
-          <div class="selected-mark"><svg width="10" height="10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg></div>
-        </div>
-        <div class="loan-opt-amount">₦80,000</div>
-        <div class="loan-opt-name">Business Loan · EL-0654</div>
-        <div class="loan-opt-due">Due Jun 5, 2026</div>
-      </div>
-      <div class="loan-opt" onclick="selectLoan(this,'18,750','Emergency Loan · EL-0991','Jun 12, 2026')">
-        <div class="loan-opt-tag">
-          Upcoming
-          <div class="selected-mark"><svg width="10" height="10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg></div>
-        </div>
-        <div class="loan-opt-amount">₦18,750</div>
-        <div class="loan-opt-name">Emergency Loan · EL-0991</div>
-        <div class="loan-opt-due">Due Jun 12, 2026</div>
+    <div class="loan-selector" *ngFor="let loan of allLoans">
+      <div class="loan-opt" 
+           [class.selected]="selectedLoan === loan"
+           (click)="selectLoan(loan)">
+        <div class="loan-opt-amount">₦{{loan.Amount}}</div>
+        <div class="loan-opt-name">{{loan.LoanType}} · {{loan.LoanId}}</div>
+        <div class="loan-opt-due">Due {{loan.RepaymentDueDate}}</div>
       </div>
     </div>
 
-    <div class="payment-layout">
-      <div class="form-panel">
+    <div class="payment-layout" *ngIf="showPaymentForm && selectedLoan">
+    <div class="form-panel">
         <div class="form-panel-title">Payment Details</div>
 
         <div class="form-group">
@@ -86,15 +61,15 @@
       <div class="summary-panel">
         <div class="summary-title">Summary</div>
         <div class="summary-rows">
-          <div class="summary-row"><label>Loan</label><span id="sum-loan" style="font-size:10px;">Personal (EL-0891)</span></div>
-          <div class="summary-row"><label>Amount</label><span id="sum-amount">₦47,250</span></div>
+          <div class="summary-row"><label>Loan</label><span id="sum-loan" style="font-size:10px;">{{selectedLoan.LoanType}} ({{selectedLoan.LoanId}})</span></div>
+          <div class="summary-row"><label>Amount</label><span id="sum-amount">₦{{selectedLoan.Amount}}</span></div>
           <div class="summary-row"><label>Processing Fee</label><span>₦0</span></div>
           <div class="summary-row"><label>Account</label><span>Zenith ****4829</span></div>
-          <div class="summary-row"><label>Date</label><span>Jun 1, 2026</span></div>
+          <div class="summary-row"><label>Date</label><span>{{selectedLoan.RepaymentDueDate}}</span></div>
         </div>
         <div class="summary-total">
           <div class="total-label">Total Debit</div>
-          <div class="total-amount" id="sum-total">₦47,250</div>
+          <div class="total-amount" id="sum-total">₦{{selectedLoan.RepaymentAmount}}</div>
           <button class="btn-confirm" onclick="showSuccess()">
             <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
             Confirm Payment

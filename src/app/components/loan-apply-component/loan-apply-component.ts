@@ -17,26 +17,17 @@ export class LoanApplyComponent {
   }
 
   loanApplicationRequest : LoanRequestCommand = {
-    LoanType: "ranged",
+    LoanType: "",
     Amount: 0,
     RepaymentAmount: 0,
     RepaymentDate: Date.now(),
     LoanPurpose: ""
   }
 
-  proposedInterest = 
+  proposedInterest :number = 
   ((this.loanApplicationRequest.Amount + this.loanApplicationRequest.RepaymentAmount)/this.loanApplicationRequest.Amount) || 0
 
-  LoanList = [
-    {
-      loanId: 1,
-      Amount: 50000,
-      RepaymentAmount: 65000,
-      RepaymentDate: '07-07-2030',
-      LoanPurpose: "For test for request"
-    
-    }
-  ];
+  LoanList = [];
 
   /**
    * Save loan list to session storage
@@ -60,42 +51,46 @@ export class LoanApplyComponent {
     // Prevent default form submission and page reload
     event.preventDefault();
 
-    if(this.LoanList.length >= 6){
+    // Get existing loans from session storage
+
+    if (this.submitLoanRequestToServer(this.loanApplicationRequest)){
+
+      const existingLoans = this.getLoanListFromSessionStorage();
+
+      // Create new loan request
+      const newLoan = {
+        loanId: existingLoans.length + 1,
+        Amount: this.loanApplicationRequest.Amount,
+        RepaymentAmount: this.loanApplicationRequest.RepaymentAmount,
+        RepaymentDate: this.loanApplicationRequest.RepaymentDate,
+        LoanPurpose: this.loanApplicationRequest.LoanPurpose,
+        LoanType: this.loanApplicationRequest.LoanType
+
+      };
+
+      // Add new request to the list
+      existingLoans.push(newLoan);
+
+      // Persist to session storage
+      this.saveLoanListToSessionStorage(existingLoans);
+      this.LoanList = existingLoans;
+
+      console.log('Loan saved to session storage:', newLoan);
+
+      // Call network API to persist the request to backend
+      this.submitLoanRequestToServer(this.loanApplicationRequest);
+
+      // Programmatically redirect to loan list without page reload
       this.router.navigate(['../loan-list'], { relativeTo: this.route });
     }
 
-    // Get existing loans from session storage
-    const existingLoans = this.getLoanListFromSessionStorage();
 
-    // Create new loan request
-    const newLoan = {
-      loanId: existingLoans.length + 1,
-      Amount: this.loanApplicationRequest.Amount,
-      RepaymentAmount: this.loanApplicationRequest.RepaymentAmount,
-      RepaymentDate: this.loanApplicationRequest.RepaymentDate,
-      LoanPurpose: this.loanApplicationRequest.LoanPurpose
-    };
-
-    // Add new request to the list
-    existingLoans.push(newLoan);
-
-    // Persist to session storage
-    this.saveLoanListToSessionStorage(existingLoans);
-    this.LoanList = existingLoans;
-
-    console.log('Loan saved to session storage:', newLoan);
-
-    // Call network API to persist the request to backend
-    this.submitLoanRequestToServer(this.loanApplicationRequest);
-
-    // Programmatically redirect to loan list without page reload
-    this.router.navigate(['../loan-list'], { relativeTo: this.route });
   }
 
   /**
    * Submit loan request to server (network call)
    */
-  submitLoanRequestToServer(request: LoanRequestCommand) {
+  submitLoanRequestToServer(request: LoanRequestCommand): boolean {
     console.log('Submitting loan request to server:', request);
     // TODO: Replace with actual API call
     // Example: this.http.post('/api/loans', request).subscribe(
@@ -106,6 +101,8 @@ export class LoanApplyComponent {
     //     console.error('Error submitting loan request:', error);
     //   }
     // );
+
+    return true;
   }
 
   CanUserApply(userId:string){

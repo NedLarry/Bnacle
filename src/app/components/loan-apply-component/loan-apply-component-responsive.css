@@ -1,0 +1,132 @@
+/* Logo mark standalone sizing */
+.nav-logo { gap: 0; }
+.nav-logo-mark { width: 30px; height: 30px; font-size: 11px; font-weight: 500; letter-spacing: 0.05em; }
+.logo-mark { font-size: 11px; font-weight: 500; }
+
+/* Tablet & Mobile adjustments (768px and below) */
+@media (max-width: 768px) {
+  /* Estimate section */
+  .estimate {
+    grid-template-columns: 1fr !important;
+    gap: 1rem;
+    padding: 1rem !important;
+  }
+  
+  .estimate-divider {
+    display: none !important;
+  }
+  
+  .estimate-item {
+    padding: 0.5rem 0 !important;
+    border-bottom: 1px solid var(--rule) !important;
+  }
+  
+  .estimate-item:last-child {
+    border-bottom: none !important;
+  }
+  
+  .est-value {
+    font-size: 1.5rem !important;
+  }
+  
+  /* Steps */
+  .step {
+    flex: 1 1 45% !important;
+  }
+  
+  /* Disclaimer */
+  .disclaimer {
+    padding: 10px 12px !important;
+    gap: 8px !important;
+  }
+  
+  .disclaimer p {
+    font-size: 10px !important;
+    line-height: 1.5 !important;
+  }
+  
+  /* Form actions */
+  .form-actions {
+    flex-direction: column !important;
+    gap: 1rem;
+  }
+  
+  .btn {
+    width: 100% !important;
+  }
+}
+
+/* Mobile (480px and below) */
+@media (max-width: 480px) {
+  /* Estimate section */
+  .estimate {
+    gap: 0.75rem;
+    padding: 0.75rem !important;
+  }
+  
+  .estimate-item {
+    padding: 0.4rem 0 !important;
+  }
+  
+  .est-label {
+    font-size: 7px !important;
+  }
+  
+  .est-value {
+    font-size: 1.2rem !important;
+  }
+  
+  /* Steps */
+  .step {
+    flex: 1 1 100% !important;
+    padding: 8px 10px !important;
+  }
+  
+  /* Form */
+  .form-grid {
+    gap: 0.75rem !important;
+  }
+  
+  .form-section-head {
+    padding: 0.6rem 0.75rem !important;
+  }
+  
+  .form-body {
+    padding: 0.75rem !important;
+  }
+  
+  .form-actions {
+    padding-top: 1rem !important;
+  }
+  
+  /* Disclaimer */
+  .disclaimer {
+    padding: 8px 10px !important;
+    font-size: 9px !important;
+  }
+  
+  .disclaimer p {
+    font-size: 8px !important;
+    line-height: 1.4 !important;
+  }
+  
+  /* Buttons */
+  .btn {
+    padding: 8px 12px !important;
+  }
+}
+
+/* Extra small devices (360px and below) */
+@media (max-width: 360px) {
+  .est-value {
+    font-size: 1rem !important;
+  }
+  
+  .est-label {
+    font-size: 7px !important;
+  }
+  
+  .estimate {
+    padding: 0.5rem !important;
+  }
+}

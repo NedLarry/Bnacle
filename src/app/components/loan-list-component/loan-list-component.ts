@@ -1,8 +1,9 @@
+import { NgForOf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-loan-list-component',
-  imports: [],
+  imports: [NgForOf],
   templateUrl: './loan-list-component.html',
   styleUrl: './loan-list-component.css',
 })
@@ -15,39 +16,17 @@ export class LoanListComponent implements OnInit {
   }
 
 
-  LoanList = [
-    {
-      loanId: 1,
-      Amount: 50000,
-      RepaidAmount: 65000,
-      RepaymentDate: '07-07-2030',
-      LoanPurpose: "For test for request",
-      LoanType: "Ranged"
-    
-    }
-  ];
+  LoanList = [];
 
   LoanListMetadata ={
-    TotalLoans: 6,
-    TotalActive: 2,
-    TotalBorrowed: 6,
+    TotalLoans: 0,
+    TotalActive: 0,
+    TotalBorrowed: 0,
     Outstanding: 0,
     Completed: 0
   }
 
-
-  UserToReturn: any = {
-    userId: '1',
-    firstName: 'Adeola',
-    lastName: 'Okonkwo',
-    email: 'AOkonkwo@gmail.com',
-    phoneNumber: '08012345678',
-    TotalBorowed: 100000,
-    TotalRepaid: 50000,
-    TotalOutstanding: 50000,
-    Loan: [{ loanId: 'loan1', amount: 100000, status: 'active', repaymentSchedule: 'monthly', repaymentAmount: 10000, repaymentDueDate: '2023-12-31' }],
-    Transactions: [{transactionDate: '2023-01-01', amount: 10000, type: 'repayment', status: 'successful'}],
-  }
+  LoanListGridView: string = "";
 
   /**
    * Save loan list to session storage

@@ -2,39 +2,23 @@
       <div>
         <div class="page-label">/ Dashboard</div>
         <div class="page-title">Loan Overview</div>
-        <div class="page-sub">Welcome back, {{userToShow.firstName}} {{userToShow.lastName}}</div>
+        <div class="page-sub">Welcome back, {{DashboardOverview.firstName}} {{DashboardOverview.lastName}}</div>
       </div>
     </div>
     <div class="stats-strip">
-      <div class="stat-cell"><div class="stat-label">Total Borrowed</div><div class="stat-num">₦{{userToShow.TotalBorowed}}</div><div class="stat-foot">3 active loans</div></div>
-      <div class="stat-cell"><div class="stat-label">Outstanding</div><div class="stat-num">₦{{userToShow.TotalOutstanding}}</div><div class="stat-foot">Across all loans</div></div>
-      <div class="stat-cell"><div class="stat-label">Next Payment</div><div class="stat-num muted">Jun 01</div><div class="stat-foot">₦47,250 due</div></div>
-      <div class="stat-cell"><div class="stat-label">Credit Score</div><div class="stat-num">742</div><div class="stat-foot">Good standing</div></div> <!-- HOW CREDIT SCORE IS CALCULATED -->
+      <div class="stat-cell"><div class="stat-label">Total Borrowed</div><div class="stat-num">₦{{DashboardOverview.TotalBorowed}}</div><div class="stat-foot">{{DashboardOverview.Loan.length}} active loans</div></div>
+      <div class="stat-cell"><div class="stat-label">Outstanding</div><div class="stat-num">₦{{DashboardOverview.TotalOutstanding}}</div><div class="stat-foot">Across all loans</div></div>
+      <div class="stat-cell"><div class="stat-label">Next Payment</div><div class="stat-num muted">{{DashboardOverview.NextRepayment}}</div><div class="stat-foot">₦{{DashboardOverview.RepaymentAmount}} due</div></div>
+      <div class="stat-cell"><div class="stat-label">Credit Score</div><div class="stat-num">{{DashboardOverview.Rating}}</div><div class="stat-foot">Good standing</div></div> <!-- HOW CREDIT SCORE IS CALCULATED -->
     </div>
     <div class="section-head"><div class="section-title">Active Loans</div><a class="section-link" href="loan-list.html">View all →</a></div>
-    <div class="loan-cards"> <!-- OVERVIEW DETAILS FROM BACKEND -->
+    <div class="loan-cards" *ngFor="let loan of UserLoans"> <!-- OVERVIEW DETAILS FROM BACKEND -->
       <a class="loan-card" href="loan-details.html">
-        <div class="loan-card-head"><div class="loan-tag">Personal Loan</div><span class="pill active">Active</span></div>
-        <div class="loan-amount">₦500,000</div>
-        <div class="loan-id">EL-2024-0891 · Jan 2025</div>
-        <div class="progress-bar"><div class="progress-fill" style="width:56.5%"></div></div>
-        <div class="progress-labels"><span>₦282,500 repaid</span><span>56.5%</span></div>
+        <div class="loan-card-head"><div class="loan-tag">{{loan["LoanType"]}}</div><span class="pill active">{{loan["Status"]}}</span></div>
+        <div class="loan-amount">₦{{loan["Amount"]}}</div>
+        <div class="loan-id">{{loan["LoanId"]}} · {{loan["DisbursedDate"]}}</div>
         <div class="loan-foot">
-          <div class="loan-foot-item"><label>Remaining</label><span>₦217,500</span></div>
-          <div class="loan-foot-item"><label>Monthly</label><span>₦47,250</span></div>
-          <div class="loan-foot-item"><label>End</label><span>Jan 2026</span></div>
-        </div>
-      </a>
-      <a class="loan-card" href="loan-details.html">
-        <div class="loan-card-head"><div class="loan-tag">Business Loan</div><span class="pill active">Active</span></div>
-        <div class="loan-amount">₦1,200,000</div>
-        <div class="loan-id">EL-2024-0654 · Oct 2024</div>
-        <div class="progress-bar"><div class="progress-fill" style="width:40%"></div></div>
-        <div class="progress-labels"><span>₦480,000 repaid</span><span>40%</span></div>
-        <div class="loan-foot">
-          <div class="loan-foot-item"><label>Remaining</label><span>₦720,000</span></div>
-          <div class="loan-foot-item"><label>Monthly</label><span>₦80,000</span></div>
-          <div class="loan-foot-item"><label>End</label><span>Apr 2027</span></div>
+          <div class="loan-foot-item"><label>End</label><span>{{loan["RepaymentDueDate"]}}</span></div>
         </div>
       </a>
     </div>
@@ -43,9 +27,9 @@
       <table>
         <thead><tr><th>Date</th><th>Loan ID</th><th>Description</th><th>Amount</th><th>Status</th></tr></thead>
         <tbody>
-          <tr><td class="td-mono" style="font-size:11px;color:var(--ghost)">May 01, 2026</td><td class="td-mono" style="font-size:11px;color:var(--ghost)">EL-0891</td><td><span class="td-main">Monthly Repayment</span><span class="td-sub">Personal Loan</span></td><td class="td-mono">₦47,250</td><td><span class="pill paid">Paid</span></td></tr>
-          <tr><td class="td-mono" style="font-size:11px;color:var(--ghost)">May 01, 2026</td><td class="td-mono" style="font-size:11px;color:var(--ghost)">EL-0654</td><td><span class="td-main">Monthly Repayment</span><span class="td-sub">Business Loan</span></td><td class="td-mono">₦80,000</td><td><span class="pill paid">Paid</span></td></tr>
-          <tr><td class="td-mono" style="font-size:11px;color:var(--ghost)">Mar 15, 2026</td><td class="td-mono" style="font-size:11px;color:var(--ghost)">EL-0991</td><td><span class="td-main">Loan Disbursed</span><span class="td-sub">Emergency Loan</span></td><td class="td-mono" style="color:var(--smoke-3)">+₦150,000</td><td><span class="pill pending">Pending</span></td></tr>
+          <tr *ngFor="let transaction of UserTransactions">
+            <td class="td-mono" style="font-size:11px;color:var(--ghost)">{{transaction["TransactionDate"]}}</td><td class="td-mono" style="font-size:11px;color:var(--ghost)">{{transaction["LoanId"]}}</td><td><span class="td-main">{{transaction["Description"]}}</span><span class="td-sub">{{transaction["LoanType"]}}</span></td><td class="td-mono">₦{{transaction["Amount"]}}</td><td><span class="pill paid">{{transaction["Status"]}}</span></td>
+          </tr>
         </tbody>
       </table>
     </div>

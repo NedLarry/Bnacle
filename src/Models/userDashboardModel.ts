@@ -7,18 +7,10 @@ export interface UserDashboardModel {
     TotalBorowed: number;
     TotalRepaid: number;
     TotalOutstanding: number;
-    Loan: Array<{
-        loanId: string;
-        amount: number;
-        status: string;
-        repaymentSchedule: string;
-        repaymentAmount: number;
-        repaymentDueDate: string;
-    }>;
-    Transactions: Array<{
-        transactionDate: string;
-        amount: number;
-        type: string;
-        status: string;
-    }>;
+    Loan: Loan[];
+    Transactions: Transactions[];
+
+    NextRepayment: string;
+    RepaymentAmount: number;
+    Rating: string;
 }

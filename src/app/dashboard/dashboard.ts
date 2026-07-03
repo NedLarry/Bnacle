@@ -44,6 +44,9 @@ export class Dashboard implements OnInit {
     TotalOutstanding: 0,
     Loan: [],
     Transactions: [],
+    NextRepayment: '',
+    RepaymentAmount: 0,
+    Rating: ''
   };
 
   ngOnInit() { 

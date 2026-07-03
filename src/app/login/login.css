@@ -136,8 +136,20 @@ input.error { border-color: var(--smoke-3); }
   .sso-row{grid-template-columns:1fr !important;}
   .form-group.full{grid-column:1 !important;}
   .otp-row .otp-input{padding:10px 4px !important;}
+  .left-panel{display:flex !important;padding:2rem 1.5rem !important;}
+  .right-panel{display:none !important;}
+  .testimonial{display:none;}
+  .stats-row{display:none;}
+  .form-title{font-size:2.4rem !important;}
 }
 @media(max-width:480px){
   .right-panel{padding:1.5rem 1rem !important;}
+  .left-panel{padding:1.5rem 1rem !important;}
   .otp-row{gap:6px !important;}
+  .form-title{font-size:2rem !important;}
+  .form-sub{font-size:12px !important;}
+  .logo-mark{width:24px !important;height:24px !important;}
+  .sso-row{grid-template-columns:1fr !important;gap:6px !important;}
+  input,select{font-size:13px !important;padding:10px 11px !important;}
+  .btn-primary,.btn-sso{padding:10px 12px !important;font-size:9px !important;}
 }

@@ -5,14 +5,15 @@
     <div class="page-title">Loan Status</div>
     <div class="page-sub">Track your pending application in real time.</div>
 
-    <div class="app-banner">
+    <div class="app-banner" 
+         *ngFor="let loan of loans" 
+         (click)="selectLoan(loan)"
+         [class.selected]="selectedLoan === loan"
+         style="cursor: pointer;">
       <div class="app-banner-left">
-        <div class="app-icon">
-          <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" style="color:var(--smoke-3)"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-        </div>
         <div>
-          <div class="app-name">Emergency Loan — ₦150,000</div>
-          <div class="app-id">EL-2026-0991 · Submitted Mar 14, 2026 at 10:32 AM</div>
+          <div class="app-name">{{ loan.LoanType }} — ₦{{ loan.Amount}}</div>
+          <div class="app-id">EL-{{ loan.LoanId }} · Submitted {{ loan.DisbursedDate }}</div>
         </div>
       </div>
       <div class="status-chip">
@@ -22,14 +23,14 @@
     </div>
 
     <!-- Horizontal progress bar -->
-    <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--ghost);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:6px;display:flex;justify-content:space-between;">
-      <span>Overall Progress</span><span>Step 3 of 4</span>
+    <div *ngIf="selectedLoan" style="font-family:'DM Mono',monospace;font-size:9px;color:var(--ghost);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:6px;display:flex;justify-content:space-between;">
+      <span>Overall Progress</span><span>Step 2 of 3</span>
     </div>
-    <div class="progress-track-outer">
+    <div *ngIf="selectedLoan" class="progress-track-outer">
       <div class="progress-track-fill"></div>
     </div>
 
-    <div class="content-grid">
+    <div class="content-grid" *ngIf="selectedLoan">
       <!-- STEPPER -->
       <div class="stepper-panel">
         <div class="stepper-title">Application Progress</div>
@@ -52,22 +53,7 @@
 
           <div class="step-item">
             <div class="step-left">
-              <div class="step-node done">
-                <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg>
-              </div>
-              <div class="step-connector"></div>
-            </div>
-            <div class="step-body">
-              <div class="step-title">Identity Verification</div>
-              <div class="step-desc">BVN and NIN verified against NIBSS database. No discrepancies found.</div>
-              <div class="step-time">Mar 14, 2026 · 10:35 AM</div>
-              <span class="step-badge done">Complete</span>
-            </div>
-          </div>
-
-          <div class="step-item">
-            <div class="step-left">
-              <div class="step-node" current>3</div>
+              <div class="step-node" current>2</div>
               <div class="step-connector"></div>
             </div>
             <div class="step-body">
@@ -80,7 +66,7 @@
 
           <div class="step-item">
             <div class="step-left">
-              <div class="step-node" style="color:var(--ghost);">4</div>
+              <div class="step-node" style="color:var(--ghost);">3</div>
             </div>
             <div class="step-body">
               <div class="step-title dim">Disbursement</div>
@@ -108,7 +94,7 @@
     </div>
 
     <!-- ACTIONS -->
-    <div class="actions-panel">
+    <div class="actions-panel" *ngIf="selectedLoan">
       <div class="actions-title">Application Actions</div>
       <div class="action-row danger" onclick="if(confirm('Withdraw this application?')) location.href='loan-overview.html'">
         <div class="action-icon">

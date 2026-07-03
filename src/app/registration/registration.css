@@ -129,11 +129,23 @@ select option { background: var(--ink-3); }
   .left-panel{display:none !important;}
   .right-panel{padding:2rem 1.5rem !important;border:none !important;}
   .form-grid{grid-template-columns:1fr !important;}
-  .sso-row{grid-template-columns:1fr !important;}
   .form-group.full{grid-column:1 !important;}
-  .otp-row .otp-input{padding:10px 4px !important;}
+  .left-panel{display:flex !important;padding:2rem 1.5rem !important;flex-direction:column;}
+  .right-panel{display:flex !important;justify-content:flex-start;}
+  .form-title{font-size:2rem !important;}
 }
 @media(max-width:480px){
   .right-panel{padding:1.5rem 1rem !important;}
-  .otp-row{gap:6px !important;}
+  .left-panel{padding:1.5rem 1rem !important;}
+  .form-title{font-size:1.8rem !important;}
+  .form-sub{font-size:12px !important;}
+  .logo-mark{width:24px !important;height:24px !important;}
+  .logo-name{font-size:1.2rem !important;}
+  input,select{font-size:13px !important;padding:10px 11px !important;}
+  .btn-submit{padding:10px 12px !important;font-size:9px !important;}
+  .panel-title{font-size:2rem !important;}
+  .modal{padding:1.5rem !important;max-width:90% !important;}
+  .modal h2{font-size:1.5rem !important;}
+  .steps-indicator{gap:6px !important;}
+  .step-dot{width:20px !important;height:20px !important;font-size:8px !important;}
 }

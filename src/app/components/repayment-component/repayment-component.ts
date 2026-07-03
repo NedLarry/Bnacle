@@ -1,22 +1,33 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-repayment-component',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './repayment-component.html',
   styleUrl: './repayment-component.css',
 })
 export class RepaymentComponent implements OnInit {
-  loansDueForRepayment: any[] = [];
-  allLoans: any[] = [];
+
+  allLoans: Loan[] = [];
   userId: string = '1'; // Get from auth service or route params
   isLoading: boolean = false;
   error: string | null = null;
+  selectedLoan: Loan | null = null;
+  showPaymentForm: boolean = false;
 
   constructor() {}
 
   ngOnInit() {
     this.getLoansForRepayment();
+  }
+
+  /**
+   * Handle loan selection when a loan panel is clicked
+   */
+  selectLoan(loan: Loan) {
+    this.selectedLoan = loan;
+    this.showPaymentForm = true;
   }
 
   /**
@@ -81,49 +92,48 @@ export class RepaymentComponent implements OnInit {
    * Mock fetch loans for repayment (remove when real API is implemented)
    */
   private mockFetchLoansForRepayment() {
-    setTimeout(() => {
-      this.allLoans = [
+    this.allLoans = [
         {
-          loanId: 1,
-          status: 'active',
-          amount: 50000,
-          repaymentAmount: 65000,
-          repaymentDate: '06-20-2026', // Due (past date)
-          loanPurpose: 'Business expansion',
-          outstandingAmount: 15000
+          LoanId: "1",
+          Status: 'active',
+          Amount: 50000,
+          RepaymentAmount: 65000,
+          RepaymentDueDate: '06-20-2026', // Due (past date)
+          LoanType: 'Business-Loan',
+          DisbursedDate: '06-20-2026',
+          RepaymentSchedule: '12 months'
+
         },
         {
-          loanId: 2,
-          status: 'active',
-          amount: 100000,
-          repaymentAmount: 125000,
-          repaymentDate: '12-31-2030', // Not due (future date)
-          loanPurpose: 'Property purchase',
-          outstandingAmount: 25000
+          LoanId: "1",
+          Status: 'active',
+          Amount: 20000,
+          RepaymentAmount: 23000,
+          RepaymentDueDate: '06-20-2026', // Due (past date)
+          LoanType: 'Business-Loan',
+          DisbursedDate: '06-20-2026',
+          RepaymentSchedule: '12 months'
         },
         {
-          loanId: 3,
-          status: 'active',
-          amount: 75000,
-          repaymentAmount: 90000,
-          repaymentDate: '06-23-2026', // Due (today)
-          loanPurpose: 'Education',
-          outstandingAmount: 15000
+          LoanId: "1",
+          Status: 'active',
+          Amount: 10000,
+          RepaymentAmount: 15000,
+          RepaymentDueDate: '06-20-2026', // Due (past date)
+          LoanType: 'Business-Loan',
+          DisbursedDate: '06-20-2026',
+          RepaymentSchedule: '12 months'
         },
         {
-          loanId: 4,
-          status: 'completed',
-          amount: 50000,
-          repaymentAmount: 60000,
-          repaymentDate: '06-01-2026', // Due but completed
-          loanPurpose: 'Car purchase',
-          outstandingAmount: 0
+          LoanId: "1",
+          Status: 'active',
+          Amount: 1000,
+          RepaymentAmount: 2500,
+          RepaymentDueDate: '06-20-2026', // Due (past date)
+          LoanType: 'Business-Loan',
+          DisbursedDate: '06-20-2026',
+          RepaymentSchedule: '12 months'
         }
       ];
-
-      this.loansDueForRepayment = this.filterLoansDueForRepayment(this.allLoans);
-      this.isLoading = false;
-      console.log('Loans due for repayment:', this.loansDueForRepayment);
-    }, 1000);
   }
 }

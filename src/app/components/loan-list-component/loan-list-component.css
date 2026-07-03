@@ -62,7 +62,7 @@ main { padding: 2.5rem 3rem; }
 .vtab.active { background: var(--ink-3); color: var(--smoke); }
 
 /* CARD GRID VIEW */
-.loan-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--rule-strong); border: 1px solid var(--rule-strong); margin-bottom: 1.5rem; }
+.loan-grid { display: grid; grid-template-columns: repeat(1fr); gap: 1px; background: var(--rule-strong); border: 1px solid var(--rule-strong); margin-bottom: 1.5rem; }
 .loan-grid.hidden { display: none; }
 
 .loan-card { background: var(--ink-2); padding: 1.5rem; text-decoration: none; color: inherit; display: flex; flex-direction: column; gap: 0; transition: background 0.12s; cursor: pointer; }
