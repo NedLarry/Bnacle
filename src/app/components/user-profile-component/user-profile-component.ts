@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from "@angular/forms";
+import { UserDashboardModel } from '../../../Models/userDashboardModel';
 
 @Component({
   selector: 'app-user-profile-component',
@@ -10,22 +11,22 @@ import { FormsModule } from "@angular/forms";
 export class UserProfileComponent implements OnInit {
   userId: string = '1'; // Get from auth service or route params
 
+
+
   UserToReturn: any = {
-    userId: '1',
-    firstName: 'Adeola',
-    lastName: 'Okonkwo',
-    email: 'AOkonkwo@gmail.com',
-    phoneNumber: '08012345678',
-    TotalBorowed: 100000,
-    TotalRepaid: 50000,
-    TotalOutstanding: 50000,
-    Gender: "Male",
-    StateOfResidence: "Lagos State",
-    Nationality: "Nigerian",
-    ResidentialAddress: "14 Admiralty Way, Lekki Phase 1, Lagos",
-    DateOfBirth: '07-07-1890',
-    Loan: [{ loanId: 'loan1', amount: 100000, status: 'active', repaymentSchedule: 'monthly', repaymentAmount: 10000, repaymentDueDate: '2023-12-31' }],
-    Transactions: [{transactionDate: '2023-01-01', amount: 10000, type: 'repayment', status: 'successful'}],
+    userId: '',
+    firstName: '',
+    lastName: '',
+    email: '',
+    phoneNumber: '',
+    TotalBorowed: 0,
+    TotalRepaid: 0,
+    TotalOutstanding: 0,
+    Loan: [],
+    Transactions: [],
+    NextRepayment: '',
+    RepaymentAmount: 0,
+    Rating: ''
   }
 
   isLoading: boolean = false;
@@ -59,6 +60,12 @@ export class UserProfileComponent implements OnInit {
     //     this.isLoading = false;
     //   }
     // );
+    this.UserToReturn = this.getLoggedInUserFromSessionStorage();
+  }
+
+  getLoggedInUserFromSessionStorage(){
+    const item = sessionStorage.getItem('LoggedInUser');
+    return item ? JSON.parse(item) : null;
   }
 
   /**
@@ -124,7 +131,7 @@ export class UserProfileComponent implements OnInit {
     // );
 
     // Mock patch
-    this.mockPatchField(fieldName, fieldValue);
+    //this.mockPatchField(fieldName, fieldValue);
   }
 
   /**
