@@ -6,6 +6,7 @@ import { Onboarding } from '../services/Onboarding/onboarding';
 import { DashboardService } from '../services/Application/dashboard-service';
 import { Observable } from 'rxjs';
 import { UserDashboardModel } from '../../Models/userDashboardModel';
+import { Roles } from '../../Models/Roles';
 
 @Component({
   selector: 'app-dashboard',
@@ -20,18 +21,7 @@ export class Dashboard implements OnInit {
     private onboarding: Onboarding
   ) { }
 
-  UserToReturn: any = {
-    userId: '1',
-    firstName: 'Adeola',
-    lastName: 'Okonkwo',
-    email: 'AOkonkwo@gmail.com',
-    phoneNumber: '08012345678',
-    TotalBorowed: 100000,
-    TotalRepaid: 50000,
-    TotalOutstanding: 50000,
-    Loan: [{ loanId: 'loan1', amount: 100000, status: 'active', repaymentSchedule: 'monthly', repaymentAmount: 10000, repaymentDueDate: '2023-12-31' }],
-    Transactions: [{transactionDate: '2023-01-01', amount: 10000, type: 'repayment', status: 'successful'}],
-  }
+  Roles = Roles;
 
   userToShow: UserDashboardModel = {
     userId: '',
@@ -39,17 +29,22 @@ export class Dashboard implements OnInit {
     lastName: '',
     email: '',
     phoneNumber: '',
+    Role: '',
+    Password: '',
+    RegisteredAt: 0,
+    StateOfResidence: '',
     TotalBorowed: 0,
     TotalRepaid: 0,
     TotalOutstanding: 0,
     Loan: [],
     Transactions: [],
+    FundedLoans: [],
     NextRepayment: '',
     RepaymentAmount: 0,
     Rating: ''
   };
 
-  ngOnInit() { 
+  ngOnInit() {
 
     //call api to get user details and display on dashboard
     //url para id from route and use it to get user details from api
@@ -58,8 +53,14 @@ export class Dashboard implements OnInit {
 
   //method to get user details from api and display on dashboard
   getUserDashboardDetails(userId: string): any {
-    //call api to get user details and display on dashboard
-    return this.UserToReturn;
+    // Demo branch: mocked by reading the logged-in user cached at login time
+    // instead of a live API call.
+    return this.getLoggedInUserFromSessionStorage() ?? this.userToShow;
+  }
+
+  getLoggedInUserFromSessionStorage() {
+    const item = sessionStorage.getItem('LoggedInUser');
+    return item ? JSON.parse(item) : null;
   }
 
 

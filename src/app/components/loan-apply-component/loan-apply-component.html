@@ -5,17 +5,17 @@
     <div class="estimate">
       <div class="estimate-item">
         <div class="est-label">Loan Amount</div>
-        <div class="est-value dim" id="prev-amount">₦{{loanApplicationRequest.Amount}}</div>
+        <div class="est-value dim" id="prev-amount">₦{{loanApplicationRequest.Amount | number}}</div>
       </div>
       <div class="estimate-divider"></div>
       <div class="estimate-item">
         <div class="est-label">Proposed interest</div>
-        <div class="est-value" id="prev-monthly" [(ngModel)]="proposedInterest">{{proposedInterest}}%</div>
+        <div class="est-value" id="prev-monthly">{{proposedInterest | number:'1.0-1'}}%</div>
       </div>
       <div class="estimate-divider"></div>
       <div class="estimate-item">
         <div class="est-label">Total Repayable</div>
-        <div class="est-value dim" id="prev-total">₦{{loanApplicationRequest.RepaymentAmount}}</div>
+        <div class="est-value dim" id="prev-total">₦{{loanApplicationRequest.RepaymentAmount | number}}</div>
       </div>
     </div>
 
@@ -82,16 +82,3 @@
     </div>
 
     </form>
-
-<script>
-function fmt(n) { return '₦' + Math.round(n).toLocaleString('en-NG'); }
-function updatePreview() {
-  const a = parseFloat(document.getElementById('amount-input').value) || 0;
-  const t = parseInt(document.getElementById('term-input').value) || 12;
-  const r = 12.5/100/12;
-  const m = a * r * Math.pow(1+r,t) / (Math.pow(1+r,t)-1);
-  document.getElementById('prev-amount').textContent = fmt(a);
-  document.getElementById('prev-monthly').textContent = fmt(m);
-  document.getElementById('prev-total').textContent = fmt(m*t);
-}
-</script>

@@ -5,19 +5,19 @@
     <div class="profile-header">
       <div class="profile-avatar-wrap">
         <div class="profile-avatar">
-          AO
+          {{initials}}
           <div class="avatar-badge" onclick="showToast('Upload feature coming soon')">
             <svg width="10" height="10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M15.232 5.232l3.536 3.536M9 13l6-6 3 3-6 6H9v-3z"/></svg>
           </div>
         </div>
         <div class="profile-info">
-          <div class="profile-name">{{UserToReturn.firstname}} {{UserToReturn.lastname}}</div>
+          <div class="profile-name">{{UserToReturn.firstName}} {{UserToReturn.lastName}}</div>
           <div class="profile-email">{{UserToReturn.email}}</div>
           <div class="profile-tags">
             <span class="tag verified">✓ BVN Verified</span>
             <span class="tag verified">✓ Email Verified</span>
-            <span class="tag">Lagos</span>
-            <span class="tag">Member since 2026</span>
+            <span class="tag" *ngIf="UserToReturn.StateOfResidence">{{UserToReturn.StateOfResidence}}</span>
+            <span class="tag">Member since {{memberSinceYear}}</span>
           </div>
         </div>
       </div>
@@ -33,27 +33,27 @@
     <div class="settings-layout">
       <!-- TABS -->
       <div class="settings-tabs">
-        <button class="settings-tab active" onclick="switchTab(this,'personal')">
+        <button class="settings-tab" [class.active]="activeTab === 'personal'" (click)="setActiveTab('personal')">
           <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 11a4 4 0 100-8 4 4 0 000 8z"/></svg>
           Personal
         </button>
-        <button class="settings-tab" onclick="switchTab(this,'financial')">
+        <button class="settings-tab" [class.active]="activeTab === 'financial'" (click)="setActiveTab('financial')">
           <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8V6m0 12v-2m6-4a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
           Financial
         </button>
-        <button class="settings-tab" onclick="switchTab(this,'security')">
+        <button class="settings-tab" [class.active]="activeTab === 'security'" (click)="setActiveTab('security')">
           <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
           Security
         </button>
-        <button class="settings-tab" onclick="switchTab(this,'notifications')">
+        <button class="settings-tab" [class.active]="activeTab === 'notifications'" (click)="setActiveTab('notifications')">
           <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 10-12 0v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
           Alerts
         </button>
-        <button class="settings-tab" onclick="switchTab(this,'banks')">
+        <button class="settings-tab" [class.active]="activeTab === 'banks'" (click)="setActiveTab('banks')">
           <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
           Banks
         </button>
-        <button class="settings-tab" onclick="switchTab(this,'activity')">
+        <button class="settings-tab" [class.active]="activeTab === 'activity'" (click)="setActiveTab('activity')">
           <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
           Activity
         </button>
@@ -63,7 +63,7 @@
       <form (ngSubmit)="updateProfile()">
         <div class="settings-content">
         <!-- PERSONAL INFO -->
-        <div class="settings-panel active" id="panel-personal">
+        <div class="settings-panel" [class.active]="activeTab === 'personal'" id="panel-personal">
           <div class="panel-title">Personal Information</div>
           <div class="form-grid">
             <div class="form-group">
@@ -77,7 +77,7 @@
             <div class="form-group full">
               <label>Email Address</label>
               <div class="input-with-action">
-                <input type="email" name="email" [(ngModel)]="UserToReturn.email" value="adeola.okonkwo@email.com" id="emailField"/>
+                <input type="email" name="email" [(ngModel)]="UserToReturn.email" id="emailField"/>
               </div>
             </div>
             <div class="form-group">
@@ -94,7 +94,8 @@
             <div class="form-group">
               <label>Gender</label>
               <select name="Gender" [(ngModel)]="UserToReturn.Gender">
-                <option selected>Female</option>
+                <option value="">Select gender</option>
+                <option>Female</option>
                 <option>Male</option>
                 <option>Prefer not to say</option>
               </select>
@@ -102,7 +103,8 @@
             <div class="form-group">
               <label>State of Residence</label>
               <select name="StateOfResidence" [(ngModel)]="UserToReturn.StateOfResidence">
-                <option selected>Lagos</option>
+                <option value="">Select state</option>
+                <option>Lagos</option>
                 <option>Abuja (FCT)</option>
                 <option>Ogun</option>
                 <option>Rivers</option>
@@ -130,7 +132,7 @@
       </form>
 
         <!-- FINANCIAL PROFILE -->
-        <div class="settings-panel" id="panel-financial">
+        <div class="settings-panel" [class.active]="activeTab === 'financial'" id="panel-financial">
           <div class="panel-title">Employment & Income</div>
           <div class="form-grid">
             <div class="form-group">
@@ -144,19 +146,19 @@
             </div>
             <div class="form-group">
               <label>Employer / Business</label>
-              <input type="text" value="Dangote Group PLC"/>
+              <input type="text" placeholder="Enter your employer or business name"/>
             </div>
             <div class="form-group">
               <label>Job Title</label>
-              <input type="text" value="Senior Financial Analyst"/>
+              <input type="text" placeholder="Enter your job title"/>
             </div>
             <div class="form-group">
               <label>Work Email</label>
-              <input type="email" value="a.okonkwo@dangote.com"/>
+              <input type="email" placeholder="Enter your work email"/>
             </div>
             <div class="form-group">
               <label>Monthly Net Income (₦)</label>
-              <input type="number" value="750000"/>
+              <input type="number" placeholder="Enter your monthly net income"/>
             </div>
             <div class="form-group">
               <label>Years of Employment</label>
@@ -173,12 +175,12 @@
           <div class="form-grid">
             <div class="form-group">
               <label>Credit Score</label>
-              <input type="text" value="742 — Good" disabled/>
-              <div class="field-hint">Last updated May 15, 2026</div>
+              <input type="text" value="—" disabled/>
+              <div class="field-hint">Calculated after your first loan activity</div>
             </div>
             <div class="form-group">
               <label>Max Loan Eligibility</label>
-              <input type="text" value="₦10,000,000" disabled/>
+              <input type="text" value="—" disabled/>
               <div class="field-hint">Based on income and credit history</div>
             </div>
           </div>
@@ -188,7 +190,7 @@
         </div>
 
         <!-- SECURITY -->
-        <div class="settings-panel" id="panel-security">
+        <div class="settings-panel" [class.active]="activeTab === 'security'" id="panel-security">
           <div class="panel-title">Password</div>
           <div class="form-grid">
             <div class="form-group full">
@@ -222,7 +224,7 @@
           <div class="security-item">
             <div class="security-left">
               <div class="security-icon"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" style="color:var(--smoke-3)"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></div>
-              <div class="security-info"><strong>Trusted Devices</strong><span>3 devices currently trusted — iPhone 14 Pro, MacBook Pro, Chrome Browser</span></div>
+              <div class="security-info"><strong>Trusted Devices</strong><span>No devices currently trusted</span></div>
             </div>
             <button class="security-action" onclick="showToast('All devices removed')">Remove All</button>
           </div>
@@ -232,8 +234,8 @@
               <div class="security-info"><strong>Transaction PIN</strong><span>Required for all payments and loan applications</span></div>
             </div>
             <div style="display:flex;align-items:center;gap:10px;">
-              <span class="badge-active">Active</span>
-              <button class="security-action" onclick="showToast('PIN change email sent')">Change PIN</button>
+              <span class="badge-off">Not set</span>
+              <button class="security-action" onclick="showToast('PIN setup email sent')">Set PIN</button>
             </div>
           </div>
 
@@ -247,7 +249,7 @@
         </div>
 
         <!-- NOTIFICATIONS -->
-        <div class="settings-panel" id="panel-notifications">
+        <div class="settings-panel" [class.active]="activeTab === 'notifications'" id="panel-notifications">
           <div class="panel-title">Email Notifications</div>
           <div class="toggle-row">
             <div class="toggle-info"><strong>Payment Reminders</strong><span>Receive reminders 3 days before each instalment is due</span></div>
@@ -289,28 +291,9 @@
         </div>
 
         <!-- BANK ACCOUNTS -->
-        <div class="settings-panel" id="panel-banks">
+        <div class="settings-panel" [class.active]="activeTab === 'banks'" id="panel-banks">
           <div class="panel-title">Linked Bank Accounts</div>
-          <div class="bank-item">
-            <div class="bank-left">
-              <div class="bank-icon">ZB</div>
-              <div class="bank-info"><strong>Zenith Bank</strong><span>**** **** **** 4829 · Savings</span></div>
-            </div>
-            <div class="bank-right">
-              <span class="bank-primary">Primary</span>
-              <button class="bank-remove" onclick="showToast('Cannot remove primary account')"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M6 18L18 6M6 6l12 12"/></svg></button>
-            </div>
-          </div>
-          <div class="bank-item">
-            <div class="bank-left">
-              <div class="bank-icon">GT</div>
-              <div class="bank-info"><strong>GTBank</strong><span>**** **** **** 2201 · Current</span></div>
-            </div>
-            <div class="bank-right">
-              <button class="security-action" onclick="showToast('GTBank set as primary')">Set Primary</button>
-              <button class="bank-remove" onclick="showToast('Account removed')"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M6 18L18 6M6 6l12 12"/></svg></button>
-            </div>
-          </div>
+          <div class="field-hint" style="margin-bottom:1rem;">No accounts linked yet</div>
           <button class="btn" onclick="showToast('Bank linking flow started')" style="margin-top:0.5rem;">
             <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
             Add Bank Account
@@ -321,8 +304,7 @@
             <div class="form-group full">
               <label>Default Disbursement Account</label>
               <select>
-                <option selected>Zenith Bank — ****4829</option>
-                <option>GTBank — ****2201</option>
+                <option value="">Link a bank account first</option>
               </select>
               <div class="field-hint">Loan funds will be sent here unless specified otherwise</div>
             </div>
@@ -333,37 +315,12 @@
         </div>
 
         <!-- ACTIVITY LOG -->
-        <div class="settings-panel" id="panel-activity">
+        <div class="settings-panel" [class.active]="activeTab === 'activity'" id="panel-activity">
           <div class="panel-title">Recent Account Activity</div>
           <div class="activity-item">
             <div class="activity-dot"></div>
-            <div class="activity-info"><strong>Password changed</strong><span>Chrome · Lagos, NG · 192.168.1.x</span></div>
-            <div class="activity-time">May 28, 2026</div>
-          </div>
-          <div class="activity-item">
-            <div class="activity-dot"></div>
-            <div class="activity-info"><strong>Sign in — iPhone 14 Pro</strong><span>Safari · Lagos, NG</span></div>
-            <div class="activity-time">May 27, 2026</div>
-          </div>
-          <div class="activity-item">
-            <div class="activity-dot"></div>
-            <div class="activity-info"><strong>Loan application submitted</strong><span>Emergency Loan · ₦150,000</span></div>
-            <div class="activity-time">Mar 14, 2026</div>
-          </div>
-          <div class="activity-item">
-            <div class="activity-dot"></div>
-            <div class="activity-info"><strong>Bank account added</strong><span>GTBank ****2201 linked</span></div>
-            <div class="activity-time">Feb 10, 2026</div>
-          </div>
-          <div class="activity-item">
-            <div class="activity-dot"></div>
-            <div class="activity-info"><strong>Profile information updated</strong><span>Residential address changed</span></div>
-            <div class="activity-time">Jan 5, 2026</div>
-          </div>
-          <div class="activity-item">
-            <div class="activity-dot"></div>
-            <div class="activity-info"><strong>Email verified</strong><span>adeola.okonkwo@email.com confirmed</span></div>
-            <div class="activity-time">Jan 10, 2022</div>
+            <div class="activity-info"><strong>Account created</strong><span>{{UserToReturn.email}}</span></div>
+            <div class="activity-time">{{accountCreatedLabel}}</div>
           </div>
           <div style="margin-top:1rem;">
             <button class="btn" onclick="showToast('Activity log exported')">

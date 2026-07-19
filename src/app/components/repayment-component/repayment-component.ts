@@ -1,9 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-repayment-component',
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './repayment-component.html',
   styleUrl: './repayment-component.css',
 })
@@ -15,6 +17,12 @@ export class RepaymentComponent implements OnInit {
   error: string | null = null;
   selectedLoan: Loan | null = null;
   showPaymentForm: boolean = false;
+
+  paymentType: 'full' | 'custom' = 'full';
+  customAmount: number | null = null;
+  showSuccessModal: boolean = false;
+  paidAmount: number = 0;
+  transactionRef: string = '';
 
   constructor() {}
 
@@ -28,35 +36,48 @@ export class RepaymentComponent implements OnInit {
   selectLoan(loan: Loan) {
     this.selectedLoan = loan;
     this.showPaymentForm = true;
+    this.paymentType = 'full';
+    this.customAmount = null;
+  }
+
+  setPaymentType(type: 'full' | 'custom') {
+    this.paymentType = type;
+  }
+
+  get totalDebit(): number {
+    if (this.paymentType === 'custom') {
+      return this.customAmount ?? 0;
+    }
+    return this.selectedLoan?.RepaymentAmount ?? 0;
+  }
+
+  confirmPayment() {
+    this.paidAmount = this.totalDebit;
+    this.transactionRef = Math.floor(Date.now() / 1000).toString().slice(-8).toUpperCase();
+    this.showSuccessModal = true;
+  }
+
+  closeSuccessModal() {
+    this.showSuccessModal = false;
   }
 
   /**
-   * Get all loans due for repayment for a user
+   * Get all loans due for repayment for the logged-in user
    */
   getLoansForRepayment() {
     this.isLoading = true;
     this.error = null;
 
-    console.log(`Fetching loans due for repayment for user: ${this.userId}`);
+    // Demo branch: mocked by reading the logged-in user's own loans
+    // instead of a live API call.
+    const loggedInUser = this.getLoggedInUserFromSessionStorage();
+    this.allLoans = this.filterLoansDueForRepayment(loggedInUser?.Loan ?? []);
+    this.isLoading = false;
+  }
 
-    // TODO: Replace with actual API call
-    // Example:
-    // this.http.get(`/api/loans/user/${this.userId}`).subscribe(
-    //   (response: any) => {
-    //     this.allLoans = response;
-    //     this.loansDueForRepayment = this.filterLoansDueForRepayment(this.allLoans);
-    //     this.isLoading = false;
-    //     console.log('Loans due for repayment:', this.loansDueForRepayment);
-    //   },
-    //   (error) => {
-    //     this.error = 'Failed to fetch loans for repayment';
-    //     this.isLoading = false;
-    //     console.error('Error fetching loans:', error);
-    //   }
-    // );
-
-    // Placeholder: Mock data
-    this.mockFetchLoansForRepayment();
+  getLoggedInUserFromSessionStorage() {
+    const item = sessionStorage.getItem('LoggedInUser');
+    return item ? JSON.parse(item) : null;
   }
 
   /**
@@ -68,72 +89,11 @@ export class RepaymentComponent implements OnInit {
     today.setHours(0, 0, 0, 0); // Reset time to compare dates only
 
     return loans.filter((loan) => {
-      let dueDate: Date;
-
-      // Handle different date formats
-      if (typeof loan.repaymentDate === 'string') {
-        // Try parsing 'DD-MM-YYYY' format
-        const [day, month, year] = loan.repaymentDate.split('-');
-        dueDate = new Date(`${year}-${month}-${day}`);
-      } else if (typeof loan.repaymentDate === 'number') {
-        dueDate = new Date(loan.repaymentDate);
-      } else {
-        dueDate = new Date(loan.repaymentDate);
-      }
-
+      const dueDate = new Date(loan.RepaymentDueDate);
       dueDate.setHours(0, 0, 0, 0); // Reset time to compare dates only
 
       // Check if loan is due (repayment date has passed or is today)
-      return dueDate <= today && loan.status !== 'completed' && loan.status !== 'closed';
+      return dueDate <= today && loan.Status !== 'completed' && loan.Status !== 'closed';
     });
-  }
-
-  /**
-   * Mock fetch loans for repayment (remove when real API is implemented)
-   */
-  private mockFetchLoansForRepayment() {
-    this.allLoans = [
-        {
-          LoanId: "1",
-          Status: 'active',
-          Amount: 50000,
-          RepaymentAmount: 65000,
-          RepaymentDueDate: '06-20-2026', // Due (past date)
-          LoanType: 'Business-Loan',
-          DisbursedDate: '06-20-2026',
-          RepaymentSchedule: '12 months'
-
-        },
-        {
-          LoanId: "1",
-          Status: 'active',
-          Amount: 20000,
-          RepaymentAmount: 23000,
-          RepaymentDueDate: '06-20-2026', // Due (past date)
-          LoanType: 'Business-Loan',
-          DisbursedDate: '06-20-2026',
-          RepaymentSchedule: '12 months'
-        },
-        {
-          LoanId: "1",
-          Status: 'active',
-          Amount: 10000,
-          RepaymentAmount: 15000,
-          RepaymentDueDate: '06-20-2026', // Due (past date)
-          LoanType: 'Business-Loan',
-          DisbursedDate: '06-20-2026',
-          RepaymentSchedule: '12 months'
-        },
-        {
-          LoanId: "1",
-          Status: 'active',
-          Amount: 1000,
-          RepaymentAmount: 2500,
-          RepaymentDueDate: '06-20-2026', // Due (past date)
-          LoanType: 'Business-Loan',
-          DisbursedDate: '06-20-2026',
-          RepaymentSchedule: '12 months'
-        }
-      ];
   }
 }

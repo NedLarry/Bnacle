@@ -5,31 +5,52 @@
         <div class="page-sub">Welcome back, {{DashboardOverview.firstName}} {{DashboardOverview.lastName}}</div>
       </div>
     </div>
-    <div class="stats-strip">
-      <div class="stat-cell"><div class="stat-label">Total Borrowed</div><div class="stat-num">₦{{DashboardOverview.TotalBorowed}}</div><div class="stat-foot">{{DashboardOverview.Loan.length}} active loans</div></div>
-      <div class="stat-cell"><div class="stat-label">Outstanding</div><div class="stat-num">₦{{DashboardOverview.TotalOutstanding}}</div><div class="stat-foot">Across all loans</div></div>
-      <div class="stat-cell"><div class="stat-label">Next Payment</div><div class="stat-num muted">{{DashboardOverview.NextRepayment}}</div><div class="stat-foot">₦{{DashboardOverview.RepaymentAmount}} due</div></div>
-      <div class="stat-cell"><div class="stat-label">Credit Score</div><div class="stat-num">{{DashboardOverview.Rating}}</div><div class="stat-foot">Good standing</div></div> <!-- HOW CREDIT SCORE IS CALCULATED -->
-    </div>
-    <div class="section-head"><div class="section-title">Active Loans</div><a class="section-link" href="loan-list.html">View all →</a></div>
-    <div class="loan-cards" *ngFor="let loan of UserLoans"> <!-- OVERVIEW DETAILS FROM BACKEND -->
-      <a class="loan-card" href="loan-details.html">
-        <div class="loan-card-head"><div class="loan-tag">{{loan["LoanType"]}}</div><span class="pill active">{{loan["Status"]}}</span></div>
-        <div class="loan-amount">₦{{loan["Amount"]}}</div>
-        <div class="loan-id">{{loan["LoanId"]}} · {{loan["DisbursedDate"]}}</div>
-        <div class="loan-foot">
-          <div class="loan-foot-item"><label>End</label><span>{{loan["RepaymentDueDate"]}}</span></div>
+    <ng-container *ngIf="DashboardOverview.Role === Roles.Loaner; else loaneeOverview">
+      <div class="stats-strip">
+        <div class="stat-cell"><div class="stat-label">Total Disbursed</div><div class="stat-num">₦{{TotalDisbursed | number}}</div><div class="stat-foot">{{FundedLoans.length}} loans funded</div></div>
+        <div class="stat-cell"><div class="stat-label">Outstanding to Collect</div><div class="stat-num">₦{{OutstandingToCollect | number}}</div><div class="stat-foot">Across all funded loans</div></div>
+        <div class="stat-cell"><div class="stat-label">Active Funded Loans</div><div class="stat-num">{{FundedLoans.length}}</div><div class="stat-foot">Currently funded</div></div>
+        <div class="stat-cell"><div class="stat-label">Wallet Balance</div><div class="stat-num muted">₦{{WalletBalance | number}}</div><div class="stat-foot">Available to lend</div></div>
+      </div>
+      <div class="section-head"><div class="section-title">Loans I've Funded</div><a class="section-link" routerLink="../loan-list">Fund more →</a></div>
+      <div class="loan-cards" *ngFor="let loan of FundedLoans">
+        <div class="loan-card">
+          <div class="loan-card-head"><div class="loan-tag">{{loan.BorrowerName}}</div><span class="pill active">{{loan.Status}}</span></div>
+          <div class="loan-amount">₦{{loan.Amount | number}}</div>
+          <div class="loan-id">{{loan.LoanId}} · Approved {{loan.ApprovedAt}}</div>
+          <div class="loan-foot">
+            <div class="loan-foot-item"><label>Payback</label><span>{{loan.PaybackDate}}</span></div>
+          </div>
         </div>
-      </a>
-    </div>
-    <div class="section-head"><div class="section-title">Recent Transactions</div><a class="section-link" href="loan-history.html">Full history →</a></div>
-    <div class="table-wrap">
-      <table>
-        <thead><tr><th>Date</th><th>Loan ID</th><th>Description</th><th>Amount</th><th>Status</th></tr></thead>
-        <tbody>
-          <tr *ngFor="let transaction of UserTransactions">
-            <td class="td-mono" style="font-size:11px;color:var(--ghost)">{{transaction["TransactionDate"]}}</td><td class="td-mono" style="font-size:11px;color:var(--ghost)">{{transaction["LoanId"]}}</td><td><span class="td-main">{{transaction["Description"]}}</span><span class="td-sub">{{transaction["LoanType"]}}</span></td><td class="td-mono">₦{{transaction["Amount"]}}</td><td><span class="pill paid">{{transaction["Status"]}}</span></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+      </div>
+    </ng-container>
+    <ng-template #loaneeOverview>
+      <div class="stats-strip">
+        <div class="stat-cell"><div class="stat-label">Total Borrowed</div><div class="stat-num">₦{{DashboardOverview.TotalBorowed | number}}</div><div class="stat-foot">{{DashboardOverview.Loan.length}} active loans</div></div>
+        <div class="stat-cell"><div class="stat-label">Outstanding</div><div class="stat-num">₦{{DashboardOverview.TotalOutstanding | number}}</div><div class="stat-foot">Across all loans</div></div>
+        <div class="stat-cell"><div class="stat-label">Next Payment</div><div class="stat-num muted">{{DashboardOverview.NextRepayment}}</div><div class="stat-foot">₦{{DashboardOverview.RepaymentAmount | number}} due</div></div>
+        <div class="stat-cell"><div class="stat-label">Credit Score</div><div class="stat-num">{{DashboardOverview.Rating}}</div><div class="stat-foot">Good standing</div></div> <!-- HOW CREDIT SCORE IS CALCULATED -->
+      </div>
+      <div class="section-head"><div class="section-title">Active Loans</div><a class="section-link" href="loan-list.html">View all →</a></div>
+      <div class="loan-cards" *ngFor="let loan of UserLoans"> <!-- OVERVIEW DETAILS FROM BACKEND -->
+        <a class="loan-card" href="loan-details.html">
+          <div class="loan-card-head"><div class="loan-tag">{{loan["LoanType"]}}</div><span class="pill active">{{loan["Status"]}}</span></div>
+          <div class="loan-amount">₦{{loan["Amount"] | number}}</div>
+          <div class="loan-id">{{loan["LoanId"]}} · {{loan["DisbursedDate"]}}</div>
+          <div class="loan-foot">
+            <div class="loan-foot-item"><label>End</label><span>{{loan["RepaymentDueDate"]}}</span></div>
+          </div>
+        </a>
+      </div>
+      <div class="section-head"><div class="section-title">Recent Transactions</div><a class="section-link" href="loan-history.html">Full history →</a></div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Date</th><th>Loan ID</th><th>Description</th><th>Amount</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr *ngFor="let transaction of UserTransactions">
+              <td class="td-mono" style="font-size:11px;color:var(--ghost)">{{transaction["TransactionDate"]}}</td><td class="td-mono" style="font-size:11px;color:var(--ghost)">{{transaction["LoanId"]}}</td><td><span class="td-main">{{transaction["Description"]}}</span><span class="td-sub">{{transaction["LoanType"]}}</span></td><td class="td-mono">₦{{transaction["Amount"] | number}}</td><td><span class="pill paid">{{transaction["Status"]}}</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </ng-template>

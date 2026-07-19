@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import {FormsModule} from '@angular/forms';
+import { DecimalPipe } from '@angular/common';
 import { LoanRequestCommand } from '../../../Models/LoanRequestCommand';
 import { Router, RouterLink, RouterModule, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-loan-apply-component',
-  imports: [FormsModule, RouterModule],
+  imports: [FormsModule, RouterModule, DecimalPipe],
   templateUrl: './loan-apply-component.html',
   styleUrl: './loan-apply-component.css',
 })
@@ -24,8 +25,20 @@ export class LoanApplyComponent {
     LoanPurpose: ""
   }
 
-  proposedInterest :number = 
-  ((this.loanApplicationRequest.Amount + this.loanApplicationRequest.RepaymentAmount)/this.loanApplicationRequest.Amount) || 0
+  /**
+   * Percentage markup the user is proposing to repay above the principal.
+   * A getter so it recalculates on every change-detection cycle as the user types.
+   */
+  get proposedInterest(): number {
+    const amount = this.loanApplicationRequest.Amount;
+    const repaymentAmount = this.loanApplicationRequest.RepaymentAmount;
+
+    if (!amount) {
+      return 0;
+    }
+
+    return ((repaymentAmount - amount) / amount) * 100;
+  }
 
   LoanList = [];
 

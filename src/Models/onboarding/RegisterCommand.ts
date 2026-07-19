@@ -5,6 +5,6 @@ export interface RegisterCommand {
     Password: string;
     PhoneNumber: string;
     StateOfResidence: string;
-    EmploymentStatus: string
-    
+    EmploymentStatus: string;
+    Role: string;
 };

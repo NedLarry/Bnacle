@@ -4,6 +4,7 @@
     <button class="hamburger" onclick="toggleSidebar()"><svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
     <div class="nav-logo"><div class="nav-logo-mark">EL</div></div>
   </div>
+  <a href="https://impravia.com.ng/" target="_blank" rel="noopener noreferrer" style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-size:11px;color:var(--mist);text-decoration:none;">This is for demo purposes only; want to be notified when we go live, join the waitlist - here</a>
   <div class="nav-right">
     <button class="nav-btn" onclick="location.href='/'"><span>Log out</span></button>
   </div>
@@ -14,11 +15,16 @@
     <div class="nav-section">Main</div>
     <a class="nav-item active" routerLink="loan-overview" routerLinkActive="active"><svg class="nav-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>Overview</a>
     <div class="nav-section">Loans</div>
-    <a class="nav-item" routerLink="loan-apply" routerLinkActive="active"><svg class="nav-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>Apply</a>
-    <a class="nav-item" routerLink="loan-list" routerLinkActive="active"><svg class="nav-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>Loan Market</a>
-    <a class="nav-item" routerLink="loan-repayment" routerLinkActive="active"><svg class="nav-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2z"/></svg>Repayments</a>
-    <a class="nav-item" routerLink="loan-history" routerLinkActive="active"><svg class="nav-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>History</a>
-    <a class="nav-item" routerLink="loan-status" routerLinkActive="active"><svg class="nav-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>Loan Status</a>
+    <ng-container *ngIf="userToShow.Role === Roles.Loaner; else loaneeNav">
+      <a class="nav-item" routerLink="loan-list" routerLinkActive="active"><svg class="nav-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>Fund Requests</a>
+    </ng-container>
+    <ng-template #loaneeNav>
+      <a class="nav-item" routerLink="loan-apply" routerLinkActive="active"><svg class="nav-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>Apply</a>
+      <a class="nav-item" routerLink="loan-list" routerLinkActive="active"><svg class="nav-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>Loan Market</a>
+      <a class="nav-item" routerLink="loan-repayment" routerLinkActive="active"><svg class="nav-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2z"/></svg>Repayments</a>
+      <a class="nav-item" routerLink="loan-history" routerLinkActive="active"><svg class="nav-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>History</a>
+      <a class="nav-item" routerLink="loan-status" routerLinkActive="active"><svg class="nav-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>Loan Status</a>
+    </ng-template>
     <div class="nav-section">Account</div>
     <a class="nav-item" routerLink="user-profile" routerLinkActive="active"><svg class="nav-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 11a4 4 0 100-8 4 4 0 000 8z"/></svg>Profile</a>
   </aside>

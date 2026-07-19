@@ -19,12 +19,12 @@
         </div>
         <div class="summary-cell">
             <div class="sc-label">Total Borrowed</div>
-            <div class="sc-val">₦{{LoanListMetadata.TotalBorrowed}}</div>
+            <div class="sc-val">₦{{LoanListMetadata.TotalBorrowed | number}}</div>
             <div class="sc-foot">Principal only</div>
         </div>
         <div class="summary-cell">
             <div class="sc-label">Outstanding</div>
-            <div class="sc-val dim">₦{{LoanListMetadata.Outstanding}}</div>
+            <div class="sc-val dim">₦{{LoanListMetadata.Outstanding | number}}</div>
             <div class="sc-foot">Remaining balance</div>
         </div>
         <div class="summary-cell">
@@ -37,11 +37,18 @@
   <!-- GRID VIEW -->
   <div class="loan-grid" id="gridView" *ngFor="let loan of LoanList">
 
-    <a class="loan-card" onclick="openDrawer('personal','₦500,000','EL-2024-0891','Jan 15, 2025','Jan 15, 2026','56.5','₦282,500','₦217,500','₦47,250','active');return false;" data-status="active" data-type="personal">
-      <div class="lc-head"><div class="lc-type">{{loan["LoanType"]}}</div><span class="pill active">Pending</span></div>
-      <div class="lc-amount">₦{{loan["Amount"]}}</div>
+    <div class="loan-card" data-status="active" data-type="personal">
+      <div class="lc-head"><div class="lc-type">{{loan["LoanType"]}}</div><span class="pill" [class.active]="loan['Status'] === 'pending'">{{loan["Status"]}}</span></div>
+      <div class="lc-amount">₦{{loan["Amount"] | number}}</div>
+      <div class="lc-id" *ngIf="loan['BorrowerName']">Requested by {{loan["BorrowerName"]}}</div>
       <div class="lc-id">Repayment Date · {{loan["RepaymentDate"]}}</div>
-    </a>
+      <button
+        *ngIf="loggedInUser?.Role === Roles.Loaner && loan['Status'] === 'pending'"
+        class="btn-apply"
+        (click)="approveAndFund(loan)">
+        Approve &amp; Fund
+      </button>
+    </div>
   </div>
 
 

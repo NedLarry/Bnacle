@@ -12,7 +12,7 @@
          style="cursor: pointer;">
       <div class="app-banner-left">
         <div>
-          <div class="app-name">{{ loan.LoanType }} — ₦{{ loan.Amount}}</div>
+          <div class="app-name">{{ loan.LoanType }} — ₦{{ loan.Amount | number}}</div>
           <div class="app-id">EL-{{ loan.LoanId }} · Submitted {{ loan.DisbursedDate }}</div>
         </div>
       </div>
@@ -46,7 +46,7 @@
             <div class="step-body">
               <div class="step-title">Application Submitted</div>
               <div class="step-desc">Received and logged in the eLoans system successfully.</div>
-              <div class="step-time">Mar 14, 2026 · 10:32 AM</div>
+              <div class="step-time">{{ selectedLoan.DisbursedDate }}</div>
               <span class="step-badge done">Complete</span>
             </div>
           </div>
@@ -80,14 +80,12 @@
       <!-- INFO PANEL -->
       <div class="info-panel">
         <div class="info-title">Application Summary</div>
-        <div class="loan-amount-big">₦150K</div>
-        <div class="info-row"><label>Type</label><span>Emergency Loan</span></div>
-        <div class="info-row"><label>Tenure</label><span>6 months</span></div>
-        <div class="info-row"><label>Rate</label><span>12.5% p.a.</span></div>
-        <div class="info-row"><label>Monthly</label><span>₦26,563</span></div>
+        <div class="loan-amount-big">₦{{ selectedLoan.Amount | number }}</div>
+        <div class="info-row"><label>Type</label><span>{{ selectedLoan.LoanType }}</span></div>
+        <div class="info-row"><label>Tenure</label><span>{{ selectedLoan.RepaymentSchedule }}</span></div>
+        <div class="info-row"><label>Repayment Amount</label><span>₦{{ selectedLoan.RepaymentAmount | number }}</span></div>
         <div class="info-row"><label>Decision Via</label><span>Email + SMS</span></div>
         <div class="info-row"><label>Review By</label><span>2:00 PM today</span></div>
-        <div class="info-row"><label>Disburse To</label><span>Zenith ****4829</span></div>
         <div class="info-row"><label>Offer Valid</label><span>48 hours</span></div>
         <div class="info-row"><label>Support</label><span style="color:var(--smoke-3);">support@eloans.ng</span></div>
       </div>

@@ -7,7 +7,7 @@
       <div class="loan-opt" 
            [class.selected]="selectedLoan === loan"
            (click)="selectLoan(loan)">
-        <div class="loan-opt-amount">₦{{loan.Amount}}</div>
+        <div class="loan-opt-amount">₦{{loan.Amount | number}}</div>
         <div class="loan-opt-name">{{loan.LoanType}} · {{loan.LoanId}}</div>
         <div class="loan-opt-due">Due {{loan.RepaymentDueDate}}</div>
       </div>
@@ -20,20 +20,20 @@
         <div class="form-group">
           <label>Payment Type</label>
           <div class="radio-stack">
-            <div class="radio-opt" id="opt-full" onclick="setType(this,'full','217,500')">
+            <div class="radio-opt" [class.checked]="paymentType === 'full'" (click)="setPaymentType('full')">
               <div class="radio-box"><div class="radio-dot"></div></div>
               <div class="radio-text"><strong>Full Outstanding Balance</strong><span>Clear the remaining loan entirely</span></div>
-              <div class="radio-amount">₦217,500</div>
+              <div class="radio-amount">₦{{selectedLoan.RepaymentAmount | number}}</div>
             </div>
-            <div class="radio-opt" id="opt-custom" onclick="setType(this,'custom','')">
+            <div class="radio-opt" [class.checked]="paymentType === 'custom'" (click)="setPaymentType('custom')">
               <div class="radio-box"><div class="radio-dot"></div></div>
               <div class="radio-text"><strong>Custom Amount</strong><span>Enter any amount above minimum</span></div>
             </div>
           </div>
-          <div class="custom-input-wrap" id="custom-wrap">
+          <div class="custom-input-wrap" *ngIf="paymentType === 'custom'">
             <div class="input-group">
               <span class="input-prefix">₦</span>
-              <input type="number" id="custom-amt" placeholder="Enter amount" min="47250" oninput="updateTotal()"/>
+              <input type="number" placeholder="Enter amount" [(ngModel)]="customAmount"/>
             </div>
           </div>
         </div>
@@ -61,16 +61,16 @@
       <div class="summary-panel">
         <div class="summary-title">Summary</div>
         <div class="summary-rows">
-          <div class="summary-row"><label>Loan</label><span id="sum-loan" style="font-size:10px;">{{selectedLoan.LoanType}} ({{selectedLoan.LoanId}})</span></div>
-          <div class="summary-row"><label>Amount</label><span id="sum-amount">₦{{selectedLoan.Amount}}</span></div>
+          <div class="summary-row"><label>Loan</label><span style="font-size:10px;">{{selectedLoan.LoanType}} ({{selectedLoan.LoanId}})</span></div>
+          <div class="summary-row"><label>Amount</label><span>₦{{totalDebit | number}}</span></div>
           <div class="summary-row"><label>Processing Fee</label><span>₦0</span></div>
           <div class="summary-row"><label>Account</label><span>Zenith ****4829</span></div>
           <div class="summary-row"><label>Date</label><span>{{selectedLoan.RepaymentDueDate}}</span></div>
         </div>
         <div class="summary-total">
           <div class="total-label">Total Debit</div>
-          <div class="total-amount" id="sum-total">₦{{selectedLoan.RepaymentAmount}}</div>
-          <button class="btn-confirm" onclick="showSuccess()">
+          <div class="total-amount">₦{{totalDebit | number}}</div>
+          <button class="btn-confirm" (click)="confirmPayment()">
             <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
             Confirm Payment
           </button>
@@ -83,54 +83,15 @@
     </div>
 
 <!-- SUCCESS MODAL -->
-<div class="modal-overlay" id="successModal">
+<div class="modal-overlay" [class.show]="showSuccessModal">
   <div class="modal">
     <div class="modal-icon">
       <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="color:var(--smoke-3)"><path d="M5 13l4 4L19 7"/></svg>
     </div>
     <h2>Payment Sent</h2>
-    <p>Your payment of <strong style="color:var(--smoke);">₦47,250</strong> for Personal Loan has been processed successfully.</p>
-    <div class="modal-ref">REF — TXN-EL-<span id="txn-ref">27052026</span></div>
+    <p>Your payment of <strong style="color:var(--smoke);">₦{{paidAmount | number}}</strong> for {{selectedLoan?.LoanType}} has been processed successfully.</p>
+    <div class="modal-ref">REF — TXN-EL-{{transactionRef}}</div>
     <p style="font-size:10px;">A receipt has been sent to your registered email address.</p>
-    <button class="modal-btn" onclick="location.href='loan-overview.html'">Return to Overview</button>
+    <button class="modal-btn" (click)="closeSuccessModal()" routerLink="../loan-overview">Return to Overview</button>
   </div>
 </div>
-
-<script>
-function selectLoan(el, amount, name, date) {
-  document.querySelectorAll('.loan-opt').forEach(o => o.classList.remove('selected'));
-  el.classList.add('selected');
-  document.getElementById('min-display').textContent = '₦' + amount;
-  document.getElementById('sum-loan').textContent = name.split('·')[0].trim();
-  const active = document.querySelector('.radio-opt.checked');
-  if (active && active.id === 'opt-min') {
-    document.getElementById('sum-amount').textContent = '₦' + amount;
-    document.getElementById('sum-total').textContent = '₦' + amount;
-  }
-}
-
-function setType(el, type, amount) {
-  document.querySelectorAll('.radio-opt').forEach(o => o.classList.remove('checked'));
-  el.classList.add('checked');
-  const cw = document.getElementById('custom-wrap');
-  cw.style.display = type === 'custom' ? 'block' : 'none';
-  if (type !== 'custom' && amount) {
-    document.getElementById('sum-amount').textContent = '₦' + amount;
-    document.getElementById('sum-total').textContent = '₦' + amount;
-  }
-}
-
-function updateTotal() {
-  const v = parseInt(document.getElementById('custom-amt').value) || 0;
-  if (v) {
-    const f = '₦' + v.toLocaleString('en-NG');
-    document.getElementById('sum-amount').textContent = f;
-    document.getElementById('sum-total').textContent = f;
-  }
-}
-
-function showSuccess() {
-  document.getElementById('txn-ref').textContent = Math.floor(Date.now()/1000).toString().slice(-8).toUpperCase();
-  document.getElementById('successModal').classList.add('show');
-}
-</script>

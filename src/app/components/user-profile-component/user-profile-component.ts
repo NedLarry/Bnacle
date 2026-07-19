@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from "@angular/forms";
+import { NgIf } from '@angular/common';
 import { UserDashboardModel } from '../../../Models/userDashboardModel';
 
 @Component({
   selector: 'app-user-profile-component',
-  imports: [FormsModule],
+  imports: [FormsModule, NgIf],
   templateUrl: './user-profile-component.html',
   styleUrl: './user-profile-component.css',
 })
@@ -32,11 +33,37 @@ export class UserProfileComponent implements OnInit {
   isLoading: boolean = false;
   error: string | null = null;
   successMessage: string | null = null;
+  activeTab: string = 'personal';
 
   constructor() {}
 
   ngOnInit() {
     this.loadUserProfile();
+  }
+
+  setActiveTab(tab: string) {
+    this.activeTab = tab;
+  }
+
+  get initials(): string {
+    const first = this.UserToReturn?.firstName?.[0] ?? '';
+    const last = this.UserToReturn?.lastName?.[0] ?? '';
+    return (first + last).toUpperCase() || '—';
+  }
+
+  get memberSinceYear(): number | string {
+    return this.UserToReturn?.RegisteredAt ? new Date(this.UserToReturn.RegisteredAt).getFullYear() : '—';
+  }
+
+  get accountCreatedLabel(): string {
+    if (!this.UserToReturn?.RegisteredAt) {
+      return '';
+    }
+    return new Date(this.UserToReturn.RegisteredAt).toLocaleDateString('en-NG', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    });
   }
 
   /**

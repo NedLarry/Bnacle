@@ -33,59 +33,15 @@ export class LoanStatusComponent implements OnInit {
     this.isLoading = true;
     this.error = null;
 
-    console.log('Fetching loan status from server...');
-
-    // TODO: Replace with actual API call
-    // Example:
-    // this.http.get('/api/loans').subscribe(
-    //   (response: any) => {
-    //     this.loans = response;
-    //     this.isLoading = false;
-    //     console.log('Loans fetched successfully:', this.loans);
-    //   },
-    //   (error) => {
-    //     this.error = 'Failed to fetch loan status';
-    //     this.isLoading = false;
-    //     console.error('Error fetching loans:', error);
-    //   }
-    // );
-
-    // Placeholder: Mock data
-    this.mockFetchLoans();
+    // Demo branch: mocked by reading the logged-in user's own loans
+    // instead of a live API call.
+    const loggedInUser = this.getLoggedInUserFromSessionStorage();
+    this.loans = loggedInUser?.Loan ?? [];
+    this.isLoading = false;
   }
 
-  /**
-   * Mock fetch loans (remove when real API is implemented)
-   */
-  private mockFetchLoans() {
-    this.loans = [
-
-      {
-
-        LoanId: "1",
-        Status: 'active',
-        Amount: 50000,
-        RepaymentAmount: 65000,
-        RepaymentDueDate: '07-07-2024',
-        LoanType: 'Personal Loan',
-        DisbursedDate: '01-01-2024',
-        RepaymentSchedule: 'Monthly',
-      },
-      {
-        LoanId: "2",
-        Status: 'pending',
-        Amount: 100000,
-        RepaymentAmount: 125000,
-        RepaymentDueDate: '12-12-2031',
-        LoanType: 'Business Loan',
-        DisbursedDate: '01-01-2024',
-        RepaymentSchedule: 'Monthly',
-      }
-    ];
-  }
-
-  getLoanListFromSessionStorage() {
-    const cachedLoanList = sessionStorage.getItem('loanList');
-    return cachedLoanList ? JSON.parse(cachedLoanList) : null;
+  getLoggedInUserFromSessionStorage() {
+    const item = sessionStorage.getItem('LoggedInUser');
+    return item ? JSON.parse(item) : null;
   }
 }

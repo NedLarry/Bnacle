@@ -4,6 +4,7 @@ import { Router, RouterLink, RouterModule } from '@angular/router';
 import { Onboarding } from '../services/Onboarding/onboarding';
 import { RegisterCommand } from '../../Models/onboarding/RegisterCommand';
 import { UserDashboardModel } from '../../Models/userDashboardModel';
+import { Roles } from '../../Models/Roles';
 
 @Component({
   selector: 'app-registration',
@@ -15,6 +16,8 @@ export class Registration {
 
   constructor (private onboardingService: Onboarding, private router: Router){}
 
+  Roles = Roles;
+
   registerUserBody : RegisterCommand = {
     FirstName: '',
     LastName: '',
@@ -22,7 +25,8 @@ export class Registration {
     Password: '',
     PhoneNumber: '',
     StateOfResidence: '',
-    EmploymentStatus: ''
+    EmploymentStatus: '',
+    Role: ''
   }
 
   RegisterUser(){
@@ -39,17 +43,23 @@ export class Registration {
       lastName: this.registerUserBody.LastName,
       email: this.registerUserBody.Email,
       phoneNumber: this.registerUserBody.PhoneNumber,
-      userId: Date.now.toString()[3],
+      userId: Date.now().toString(),
+      Role: this.registerUserBody.Role,
+      Password: this.registerUserBody.Password,
+      RegisteredAt: Date.now(),
+      StateOfResidence: this.registerUserBody.StateOfResidence,
       TotalBorowed: 0,
       TotalRepaid: 0,
       TotalOutstanding: 0,
       Loan: [],
       Transactions: [],
+      FundedLoans: [],
       NextRepayment: '',
       RepaymentAmount: 0,
       Rating: '0'
     }
-    sessionStorage.setItem('users', JSON.stringify([newUser]))
+
+    this.onboardingService.registerUser(newUser);
     console.log('user object for creation', newUser)
     return true;
   }
